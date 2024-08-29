@@ -10,6 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     cardprodwindow.cpp \
+    claimdetail.cpp \
+    claimwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     remontstatuswindow.cpp \
@@ -18,7 +20,10 @@ SOURCES += \
 
 HEADERS += \
     cardprodwindow.h \
+    claimdetail.h \
+    claimwindow.h \
     mainwindow.h \
+    models/claim.h \
     models/modul.h \
     models/product.h \
     models/remontm.h \
@@ -32,6 +37,8 @@ HEADERS += \
 
 FORMS += \
     cardprodwindow.ui \
+    claimdetail.ui \
+    claimwindow.ui \
     mainwindow.ui \
     remontstatuswindow.ui \
     remontwindow.ui

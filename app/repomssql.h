@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 
+#include <models/claim.h>
 #include <models/remontstepstatus.h>
 
 // #include "models/entity.h"
@@ -53,6 +54,8 @@ public:
     SetterOut GetSetterOut(int id);
     void LoadChildSetter(SetterOut &setter);
     Shipment GetShipment(int id);
+    void LoadModuleType(QMap<int, QString> &listTypeModule);
+    void LoadProductType(QMap<int, QString> &listTypeProduct);
 
     bool AddRemontM(RemontM& rem);
     bool AddRemontStep(RemontStep &remStep);
@@ -60,6 +63,11 @@ public:
     void LoadRemontM(QList<RemontM> &list, int idModul);
     void LoadRemontMStep(RemontM &rem);
     void LoadRemontStatus(QList<RemontStepStatus> &listStatus, RemontStepStatus::TypeStatus type);
+
+    void LoadClaim(QList<Claim> &listClaim);
+    bool InsertClaim(Claim *claim);
+    bool DeleteClaim(int id);
+    void LoadClaimType(QMap<int, QString> &listTypeClaim);
 };
 
 

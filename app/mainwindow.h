@@ -25,6 +25,8 @@ private slots:
     void on_twProduct_cellDoubleClicked(int row, int column);
     void on_twModul_cellDoubleClicked(int row, int column);
 
+    void on_pbClaim_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

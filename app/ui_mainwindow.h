@@ -16,6 +16,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolButton>
@@ -34,6 +35,7 @@ public:
     QToolButton *btSearch;
     QLabel *label_3;
     QTableWidget *twModul;
+    QPushButton *pbClaim;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -86,6 +88,9 @@ public:
         twModul->setAlternatingRowColors(true);
         twModul->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
         twModul->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+        pbClaim = new QPushButton(centralwidget);
+        pbClaim->setObjectName("pbClaim");
+        pbClaim->setGeometry(QRect(530, 40, 80, 24));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -115,6 +120,7 @@ public:
         ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "New Column", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = twModul->horizontalHeaderItem(1);
         ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "New Column", nullptr));
+        pbClaim->setText(QCoreApplication::translate("MainWindow", "\320\237\321\200\320\265\321\202\320\265\320\275\320\267\320\270\320\270", nullptr));
     } // retranslateUi
 
 };

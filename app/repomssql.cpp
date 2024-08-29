@@ -337,8 +337,6 @@ Shipment RepoMSSQL::GetShipment(int id)
 
 }
 
-
-
 //------------------------------------------------------------------------------------------------------
 // Добавление ремонта
 //------------------------------------------------------------------------------------------------------
@@ -521,4 +519,164 @@ void RepoMSSQL::LoadRemontStatus(QList<RemontStepStatus> &listStatus, RemontStep
 
 }
 
+void RepoMSSQL::LoadClaim(QList<Claim> &listClaim)
+{
+    listClaim.clear();
+    QSqlQuery query;
+    query.prepare("select id,Number,DateClaim,FromWho,TypeClaimId,Organization,ObjectInstall,"
+                  "Descript,TypeComplectId,VNFT,Quantity,TypeDeviceId,NumberModul,NumberNewModul,"
+                  "NumberDevice,DateOut,Guarantee,Reason,DateRepair,DoRepair,FileAnswer,TextResult "
+                  "from Claim");
+
+    query.exec();
+    while(query.next())
+    {
+        Claim claim;
+
+        claim.id = query.value(0).toInt();
+        claim.Number = query.value(1).toString();
+        claim.DateClaim = query.value(2).toDateTime();
+        claim.FromWho = query.value(3).toString();
+        claim.TypeClaimId = query.value(4).toInt();
+        claim.Organization = query.value(5).toString();
+        claim.ObjectInstall = query.value(6).toString();
+        claim.Descript = query.value(7).toString();
+        claim.TypeComplectId = query.value(8).toInt();
+        claim.VNFT = query.value(9).toString();
+        claim.Quantity = query.value(10).toInt();
+        claim.TypeDeviceId = query.value(11).toInt();
+        claim.NumberModul = query.value(12).toString();
+        claim.NumberNewModul = query.value(13).toString();
+        claim.NumberDevice = query.value(14).toString();
+        claim.DateOut = query.value(15).toDateTime();
+        claim.IsGuarantee = query.value(16).toBool();
+        claim.Reason = query.value(17).toString();
+        claim.DateRepair = query.value(18).toDateTime();
+        claim.DoRepair = query.value(19).toString();
+        claim.FileAnswer = query.value(20).toString();
+        claim.TextResult = query.value(21).toString();
+        listClaim.push_back(claim);
+    }
+}
+
+//------------------------------------------------------------------------------------------------------
+// Добавление перетензии
+//------------------------------------------------------------------------------------------------------
+bool RepoMSSQL::InsertClaim(Claim *claim)
+{
+    bool res;
+    QSqlQuery query;
+
+    query.prepare("insert into Claim (Number,DateClaim,FromWho,TypeClaimId,Organization,ObjectInstall,"
+                  "Descript,TypeComplectId,VNFT,Quantity,TypeDeviceId,NumberModul,NumberNewModul,"
+                  "NumberDevice,DateOut,Guarantee,Reason,DateRepair,DoRepair,FileAnswer,TextResult) "
+                  "output inserted.id values(:Number,:DateClaim,:FromWho,:TypeClaimId,:Organization,:ObjectInstall,"
+                  ":Descript,:TypeComplectId,:VNFT,:Quantity,:TypeDeviceId,:NumberModul,:NumberNewModul,"
+                  ":NumberDevice,:DateOut,:Guarantee,:Reason,:DateRepair,:DoRepair,:FileAnswer,:TextResult)");
+
+    query.bindValue(":Number", claim->Number);
+    query.bindValue(":DateClaim", claim->DateClaim);
+    query.bindValue(":FromWho", claim->FromWho);
+    query.bindValue(":TypeClaimId", claim->TypeClaimId);
+    query.bindValue(":Organization", claim->Organization);
+    query.bindValue(":ObjectInstall", claim->ObjectInstall);
+    query.bindValue(":Descript", claim->Descript);
+    query.bindValue(":TypeComplectId", claim->TypeComplectId);
+    query.bindValue(":VNFT", claim->VNFT);
+    query.bindValue(":Quantity", claim->Quantity);
+    query.bindValue(":TypeDeviceId", claim->TypeDeviceId);
+    query.bindValue(":NumberModul", claim->NumberModul);
+    query.bindValue(":NumberNewModul", claim->NumberNewModul);
+    query.bindValue(":NumberDevice", claim->NumberDevice);
+    query.bindValue(":DateOut", claim->DateOut);
+    query.bindValue(":Guarantee", claim->IsGuarantee);
+    query.bindValue(":Reason", claim->Reason);
+    query.bindValue(":DateRepair", claim->DateRepair);
+    query.bindValue(":DoRepair", claim->DoRepair);
+    query.bindValue(":FileAnswer", claim->FileAnswer);
+    query.bindValue(":TextResult", claim->TextResult);
+
+    res = query.exec();
+
+    if(query.next())
+    {
+        claim->id = query.value(0).toInt();
+    }
+
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в Claim";
+
+    return res;
+
+}
+
+//------------------------------------------------------------------------------------------------------
+// Удаление перетензии
+//------------------------------------------------------------------------------------------------------
+bool RepoMSSQL::DeleteClaim(int id)
+{
+    bool res;
+    QSqlQuery query;
+
+    query.prepare("delete from Claim where id=:id");
+
+    query.bindValue(":id", id);
+
+    res = query.exec();
+
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в Claim";
+
+    return res;
+
+}
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка типов рекламаций
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadClaimType(QMap<int, QString> &listTypeClaim)
+{
+    listTypeClaim.clear();
+    QSqlQuery query;
+    query.prepare("select id,NameType from ClaimType");
+
+    query.exec();
+    while(query.next())
+    {
+        listTypeClaim.insert(query.value(0).toInt(), query.value(1).toString());
+    }
+}
+
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка типов модулей
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadModuleType(QMap<int, QString> &listTypeModule)
+{
+    listTypeModule.clear();
+    QSqlQuery query;
+    query.prepare("select id,mt_name from ModuleType");
+
+    query.exec();
+    while(query.next())
+    {
+        listTypeModule.insert(query.value(0).toInt(), query.value(1).toString());
+    }
+}
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка типов изделий
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadProductType(QMap<int, QString> &listTypeProduct)
+{
+    listTypeProduct.clear();
+    QSqlQuery query;
+    query.prepare("select id,gt_name from ProductType");
+
+    query.exec();
+    while(query.next())
+    {
+        listTypeProduct.insert(query.value(0).toInt(), query.value(1).toString());
+    }
+}
 

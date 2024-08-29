@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cardprodwindow.h"
+#include "claimwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -92,5 +93,14 @@ void MainWindow::on_twModul_cellDoubleClicked(int row, int /*column*/)
     CardProdWindow *card = new CardProdWindow(mod, this);
     card->show();
 
+}
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Работа с претензиями
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbClaim_clicked()
+{
+    ClaimWindow *win = new ClaimWindow;
+    win->show();
 }
 

@@ -76,6 +76,31 @@
      <string>ВНФТ</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>Тип оборудования</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>№ модуля</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>№ модуля замены</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>№ оборудования</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Дата отгрузки</string>
+    </property>
+   </column>
   </widget>
   <widget class="QPushButton" name="pbAdd">
    <property name="geometry">

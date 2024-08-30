@@ -2138,7 +2138,12 @@ release\main.obj: main.cpp mainwindow.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qpromise.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtGui\qguiapplication.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtGui\qinputmethod.h \
-		C:\Qt\6.6.2\msvc2019_64\include\QtGui\qguiapplication_platform.h
+		C:\Qt\6.6.2\msvc2019_64\include\QtGui\qguiapplication_platform.h \
+		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QLibraryInfo \
+		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qlibraryinfo.h \
+		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qversionnumber.h \
+		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QTranslator \
+		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qtranslator.h
 
 release\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		repomssql.h \

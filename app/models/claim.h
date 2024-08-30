@@ -30,6 +30,9 @@ public:
     QString DoRepair;
     QString FileAnswer;
     QString TextResult;
+    QString TypeClaimString;
+    QString TypeComplectString;
+    QString TypeDeviceString;
 
     Claim() : id(0) {}
 

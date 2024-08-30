@@ -31,6 +31,8 @@ private:
     QMap<int, QString> listTypeProduct;
 
     RepoMSSQL repo;
+
+    void ClaimToScreen(Claim *claim);
 };
 
 #endif // CLAIMDETAIL_H

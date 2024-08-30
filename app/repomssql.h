@@ -66,6 +66,7 @@ public:
 
     void LoadClaim(QList<Claim> &listClaim);
     bool InsertClaim(Claim *claim);
+    bool UpdateClaim(Claim *claim);
     bool DeleteClaim(int id);
     void LoadClaimType(QMap<int, QString> &listTypeClaim);
 };

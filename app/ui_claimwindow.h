@@ -32,8 +32,8 @@ public:
             ClaimWindow->setObjectName("ClaimWindow");
         ClaimWindow->resize(909, 481);
         twClaim = new QTableWidget(ClaimWindow);
-        if (twClaim->columnCount() < 9)
-            twClaim->setColumnCount(9);
+        if (twClaim->columnCount() < 14)
+            twClaim->setColumnCount(14);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         twClaim->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -52,6 +52,16 @@ public:
         twClaim->setHorizontalHeaderItem(7, __qtablewidgetitem7);
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
         twClaim->setHorizontalHeaderItem(8, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        twClaim->setHorizontalHeaderItem(9, __qtablewidgetitem9);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        twClaim->setHorizontalHeaderItem(10, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        twClaim->setHorizontalHeaderItem(11, __qtablewidgetitem11);
+        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
+        twClaim->setHorizontalHeaderItem(12, __qtablewidgetitem12);
+        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
+        twClaim->setHorizontalHeaderItem(13, __qtablewidgetitem13);
         twClaim->setObjectName("twClaim");
         twClaim->setGeometry(QRect(20, 90, 871, 371));
         twClaim->setAlternatingRowColors(true);
@@ -93,6 +103,16 @@ public:
         ___qtablewidgetitem7->setText(QCoreApplication::translate("ClaimWindow", "\320\242\320\270\320\277 \320\272\320\276\320\274\320\277\320\273\320\265\320\272\321\202\321\203\321\216\321\211\320\270\321\205", nullptr));
         QTableWidgetItem *___qtablewidgetitem8 = twClaim->horizontalHeaderItem(8);
         ___qtablewidgetitem8->setText(QCoreApplication::translate("ClaimWindow", "\320\222\320\235\320\244\320\242", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = twClaim->horizontalHeaderItem(9);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("ClaimWindow", "\320\242\320\270\320\277 \320\276\320\261\320\276\321\200\321\203\320\264\320\276\320\262\320\260\320\275\320\270\321\217", nullptr));
+        QTableWidgetItem *___qtablewidgetitem10 = twClaim->horizontalHeaderItem(10);
+        ___qtablewidgetitem10->setText(QCoreApplication::translate("ClaimWindow", "\342\204\226 \320\274\320\276\320\264\321\203\320\273\321\217", nullptr));
+        QTableWidgetItem *___qtablewidgetitem11 = twClaim->horizontalHeaderItem(11);
+        ___qtablewidgetitem11->setText(QCoreApplication::translate("ClaimWindow", "\342\204\226 \320\274\320\276\320\264\321\203\320\273\321\217 \320\267\320\260\320\274\320\265\320\275\321\213", nullptr));
+        QTableWidgetItem *___qtablewidgetitem12 = twClaim->horizontalHeaderItem(12);
+        ___qtablewidgetitem12->setText(QCoreApplication::translate("ClaimWindow", "\342\204\226 \320\276\320\261\320\276\321\200\321\203\320\264\320\276\320\262\320\260\320\275\320\270\321\217", nullptr));
+        QTableWidgetItem *___qtablewidgetitem13 = twClaim->horizontalHeaderItem(13);
+        ___qtablewidgetitem13->setText(QCoreApplication::translate("ClaimWindow", "\320\224\320\260\321\202\320\260 \320\276\321\202\320\263\321\200\321\203\320\267\320\272\320\270", nullptr));
         pbAdd->setText(QCoreApplication::translate("ClaimWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
         pbEdit->setText(QCoreApplication::translate("ClaimWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
         pbDelete->setText(QCoreApplication::translate("ClaimWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", nullptr));

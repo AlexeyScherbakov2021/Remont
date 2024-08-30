@@ -21,15 +21,16 @@ public:
 
 private slots:
     void on_pbAdd_clicked();
-
     void on_pbDelete_clicked();
+    void on_pbEdit_clicked();
+    void on_twClaim_cellDoubleClicked(int row, int column);
 
 private:
     Ui::ClaimWindow *ui;
     QList<Claim> listClaim;
     RepoMSSQL repo;
 
-    void AddLineScreen(const Claim *claim);
+    int AddLineScreen(const Claim *claim);
 };
 
 #endif // CLAIMWINDOW_H

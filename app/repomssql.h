@@ -8,6 +8,7 @@
 
 #include <models/claim.h>
 #include <models/remontstepstatus.h>
+#include <models/status.h>
 
 // #include "models/entity.h"
 
@@ -48,27 +49,39 @@ public:
 
     void FindModul(const QString &serialNumber, QList<Modul> &listModul);
     Modul GetModul(const int id);
+
+    SetterOut GetSetterOut(int id);
+    void LoadChildSetter(SetterOut &setter);
+
+    Shipment GetShipment(int id);
+
+    void LoadModuleType(QMap<int, QString> &listTypeModule);
+
     void FindProduct(const QString &serialNumber, QList<Product> &listModul);
     Product GetProduct(const int id);
     void LoadChildProduct(Product &prod);
-    SetterOut GetSetterOut(int id);
-    void LoadChildSetter(SetterOut &setter);
-    Shipment GetShipment(int id);
-    void LoadModuleType(QMap<int, QString> &listTypeModule);
     void LoadProductType(QMap<int, QString> &listTypeProduct);
 
     bool AddRemontM(RemontM& rem);
-    bool AddRemontStep(RemontStep &remStep);
+    bool AddRemontMStep(RemontStep &remStep);
     void LoadRemontReason(QMap<int, QString> &listReason);
     void LoadRemontM(QList<RemontM> &list, int idModul);
     void LoadRemontMStep(RemontM &rem);
     void LoadRemontStatus(QList<RemontStepStatus> &listStatus, RemontStepStatus::TypeStatus type);
+
+    bool AddRemontP(RemontM& rem);
+    bool AddRemontPStep(RemontStep &remStep);
+    void LoadRemontP(QList<RemontM> &list, int id);
+    void LoadRemontPStep(RemontM &rem);
 
     void LoadClaim(QList<Claim> &listClaim);
     bool InsertClaim(Claim *claim);
     bool UpdateClaim(Claim *claim);
     bool DeleteClaim(int id);
     void LoadClaimType(QMap<int, QString> &listTypeClaim);
+
+    void LoadStatus(Modul &mod);
+    void LoadStatus(Product &prod);
 };
 
 

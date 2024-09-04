@@ -7,6 +7,7 @@
 
 #include <models/modul.h>
 #include <models/product.h>
+#include <models/remontentity.h>
 #include <models/setterout.h>
 #include <models/shipment.h>
 
@@ -21,7 +22,7 @@ class CardProdWindow : public QDialog
 
 public:
     explicit CardProdWindow(Modul &modul, QWidget *parent = nullptr);
-    explicit CardProdWindow(Product *prod, QWidget *parent = nullptr);
+    explicit CardProdWindow(Product &prod, QWidget *parent = nullptr);
     ~CardProdWindow();
 
 private slots:
@@ -32,12 +33,15 @@ private:
     explicit CardProdWindow(const QString &name, QWidget *parent = nullptr);
     Ui::CardProdWindow *ui;
     RepoMSSQL repo;
-    Modul modul;
+    // Modul modul;
     QString number;
+
+    RemontEntity *remontEntity;
 
     void loadShipmentToForm(const Product *prod);
     void loadInclude(const Product *prod);
     void AddRowRemont(RemontM &rem);
+    void LoadHistoryToForm(QList<Status> listStatus);
 };
 
 #endif // CARDPRODWINDOW_H

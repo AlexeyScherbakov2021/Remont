@@ -22,6 +22,10 @@ public:
 private slots:
     void on_pbOK_clicked();
 
+    void on_tbAddDevice_clicked();
+
+    void on_tbDeleteDevice_clicked();
+
 private:
     Ui::ClaimDetail *ui;
     // explicit ClaimDetail(QWidget *parent = nullptr);

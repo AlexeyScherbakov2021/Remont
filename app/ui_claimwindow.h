@@ -25,6 +25,7 @@ public:
     QPushButton *pbAdd;
     QPushButton *pbEdit;
     QPushButton *pbDelete;
+    QPushButton *pbSelect;
 
     void setupUi(QDialog *ClaimWindow)
     {
@@ -76,6 +77,9 @@ public:
         pbDelete = new QPushButton(ClaimWindow);
         pbDelete->setObjectName("pbDelete");
         pbDelete->setGeometry(QRect(280, 40, 80, 24));
+        pbSelect = new QPushButton(ClaimWindow);
+        pbSelect->setObjectName("pbSelect");
+        pbSelect->setGeometry(QRect(400, 40, 80, 24));
 
         retranslateUi(ClaimWindow);
 
@@ -84,7 +88,7 @@ public:
 
     void retranslateUi(QDialog *ClaimWindow)
     {
-        ClaimWindow->setWindowTitle(QCoreApplication::translate("ClaimWindow", "Dialog", nullptr));
+        ClaimWindow->setWindowTitle(QCoreApplication::translate("ClaimWindow", "\320\241\320\277\320\270\321\201\320\276\320\272 \321\200\320\265\320\272\320\273\320\260\320\274\320\260\321\206\320\270\320\271", nullptr));
         QTableWidgetItem *___qtablewidgetitem = twClaim->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("ClaimWindow", "\342\204\226", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = twClaim->horizontalHeaderItem(1);
@@ -116,6 +120,7 @@ public:
         pbAdd->setText(QCoreApplication::translate("ClaimWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
         pbEdit->setText(QCoreApplication::translate("ClaimWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
         pbDelete->setText(QCoreApplication::translate("ClaimWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", nullptr));
+        pbSelect->setText(QCoreApplication::translate("ClaimWindow", "\320\222\321\213\320\261\321\200\320\260\321\202\321\214", nullptr));
     } // retranslateUi
 
 };

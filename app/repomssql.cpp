@@ -81,11 +81,43 @@ void RepoMSSQL::FindModul(const QString &serialNumber, QList<Modul> &listModul)
         mod.number = query.value(5).toString();
         mod.numberFW = query.value(6).toString();
         mod.isZip = query.value(9).toBool();
+        LoadStatus(mod);
         listModul.push_back(mod);
     }
 
     // qDebug() << db.lastError().text();
 }
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка списка статусов для модуля
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadStatus(Modul &mod)
+{
+    mod.listStatus.clear();
+
+    QSqlQuery query;
+    query.prepare("select ms.id,idModul,idStatus,DateStatus,Comment,sd.nameStatus "
+                  "from ModulStatus ms "
+                  "join StatusDevice sd on sd.id=ms.idStatus "
+                  "where ms.idModul=:id "
+                  "order by ms.DateStatus");
+
+    query.bindValue(":id", mod.id);
+
+    query.exec();
+    while(query.next())
+    {
+        Status stat;
+        stat.id = query.value(0).toInt();
+        stat.idDevice = query.value(1).toInt();
+        stat.idStatus = query.value(2).toInt();
+        stat.dateStatus = query.value(3).toDateTime();
+        stat.Comment = query.value(4).toString();
+        stat.nameStatus = query.value(5).toString();
+        mod.listStatus.push_back(stat);
+    }
+}
+
 
 //------------------------------------------------------------------------------------------------------
 // Поиск модуля по id
@@ -111,6 +143,7 @@ Modul RepoMSSQL::GetModul(const int id)
         mod.number = query.value(4).toString();
         mod.numberFW = query.value(5).toString();
         mod.isZip = query.value(8).toBool();
+        LoadStatus(mod);
     }
 
     // qDebug() << db.lastError().text();
@@ -157,6 +190,7 @@ void RepoMSSQL::FindProduct(const QString &serialNumber, QList<Product> &listPro
         prod.numberUSIKP = query.value(17).toString();
         prod.shunt = query.value(18).toString();
         prod.isZip = query.value(19).toBool();
+        LoadStatus(prod);
         listProduct.push_back(prod);
     }
     // qDebug() << db.lastError().text();
@@ -201,12 +235,44 @@ Product RepoMSSQL::GetProduct(const int id)
         prod.numberUSIKP = query.value(16).toString();
         prod.shunt = query.value(17).toString();
         prod.isZip = query.value(18).toBool();
-
+        LoadStatus(prod);
     }
 
     return prod;
 
 }
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка списка статусов для изделия
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadStatus(Product &prod)
+{
+    prod.listStatus.clear();
+
+    QSqlQuery query;
+    query.prepare("select ms.id,idProduct,idStatus,DateStatus,Comment,sd.nameStatus "
+                  "from ProductStatus ms "
+                  "join StatusDevice sd on sd.id=ms.idStatus "
+                  "where ms.idProduct=:id "
+                  "order by ms.DateStatus");
+
+    query.bindValue(":id", prod.id);
+
+    query.exec();
+    while(query.next())
+    {
+        Status stat;
+        stat.id = query.value(0).toInt();
+        stat.idDevice = query.value(1).toInt();
+        stat.idStatus = query.value(2).toInt();
+        stat.dateStatus = query.value(3).toDateTime();
+        stat.Comment = query.value(4).toString();
+        stat.nameStatus = query.value(5).toString();
+        prod.listStatus.push_back(stat);
+    }
+
+}
+
 
 //------------------------------------------------------------------------------------------------------
 // Загрузка модулей для изделия
@@ -314,7 +380,7 @@ Shipment RepoMSSQL::GetShipment(int id)
     Shipment ship;
 
     query.prepare("select c_number,c_objectInstall,c_dateOut,c_customer,c_questList,"
-                  "c_schet,c_cardOrder,c_numberUPD,c_buyer "
+                  "c_schet,c_cardOrder,c_numberUPD,c_buyer,c_dateUPD "
                   "from Shipment where id = :id");
 
     query.bindValue(":id", id);
@@ -332,6 +398,7 @@ Shipment RepoMSSQL::GetShipment(int id)
         ship.cardOrder = query.value(6).toString();
         ship.numberUPD = query.value(7).toString();
         ship.buyer = query.value(8).toString();
+        ship.dateUPD = query.value(9).toDateTime();
     }
     return ship;
 
@@ -350,7 +417,7 @@ bool RepoMSSQL::AddRemontM(RemontM &rem)
     query.prepare("insert into RemontM (ModulId,Reclamation,WorkDate,ReasonId,Action,Defect,Remark) "
                   "output inserted.id values(:ModulId,:Reclamation,:WorkDate,:ReasonId,:Action,:Defect,:Remark)");
 
-    query.bindValue(":ModulId", rem.modulId);
+    query.bindValue(":ModulId", rem.EntityId);
     query.bindValue(":Reclamation", rem.reclamtion);
     query.bindValue(":WorkDate", rem.workDate);
     query.bindValue(":ReasonId", rem.reasonId);
@@ -368,7 +435,7 @@ bool RepoMSSQL::AddRemontM(RemontM &rem)
         {
             rem.id = query.value(0).toInt();
             rem.listRemStep.last().RemontMId = rem.id;
-            res = AddRemontStep(rem.listRemStep.last());
+            res = AddRemontMStep(rem.listRemStep.last());
         }
     }
 
@@ -382,9 +449,54 @@ bool RepoMSSQL::AddRemontM(RemontM &rem)
 }
 
 //------------------------------------------------------------------------------------------------------
+// Добавление ремонта
+//------------------------------------------------------------------------------------------------------
+bool RepoMSSQL::AddRemontP(RemontM &rem)
+{
+    bool res;
+    QSqlQuery query;
+
+    db.transaction();
+
+    query.prepare("insert into RemontP (ProductId,Reclamation,WorkDate,ReasonId,Action,Defect,Remark) "
+                  "output inserted.id values(:ProductId,:Reclamation,:WorkDate,:ReasonId,:Action,:Defect,:Remark)");
+
+    query.bindValue(":ProductId", rem.EntityId);
+    query.bindValue(":Reclamation", rem.reclamtion);
+    query.bindValue(":WorkDate", rem.workDate);
+    query.bindValue(":ReasonId", rem.reasonId);
+    query.bindValue(":Action", rem.action);
+    query.bindValue(":Defect", rem.defect);
+    query.bindValue(":Remark", rem.remark);
+
+    res = query.exec();
+
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в RemontM";
+    else
+    {
+        if(query.next())
+        {
+            rem.id = query.value(0).toInt();
+            rem.listRemStep.last().RemontMId = rem.id;
+            res = AddRemontPStep(rem.listRemStep.last());
+        }
+    }
+
+    if(res)
+        db.commit();
+    else
+        db.rollback();
+
+    return res;
+
+}
+
+
+//------------------------------------------------------------------------------------------------------
 // Добавление статуса ремонта
 //------------------------------------------------------------------------------------------------------
-bool RepoMSSQL::AddRemontStep(RemontStep &remStep)
+bool RepoMSSQL::AddRemontMStep(RemontStep &remStep)
 {
     bool res;
     QSqlQuery query;
@@ -393,6 +505,35 @@ bool RepoMSSQL::AddRemontStep(RemontStep &remStep)
                   "output inserted.id values(:RemontMId,:StatusId,:Comment,:DateStep)");
 
     query.bindValue(":RemontMId", remStep.RemontMId);
+    query.bindValue(":StatusId", remStep.StatusId);
+    query.bindValue(":Comment", remStep.Comment);
+    query.bindValue(":DateStep", remStep.dateStep);
+
+    res = query.exec();
+
+    if(query.next())
+    {
+        remStep.id = query.value(0).toInt();
+    }
+
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в RemontMStep";
+
+    return res;
+}
+
+//------------------------------------------------------------------------------------------------------
+// Добавление статуса ремонта
+//------------------------------------------------------------------------------------------------------
+bool RepoMSSQL::AddRemontPStep(RemontStep &remStep)
+{
+    bool res;
+    QSqlQuery query;
+
+    query.prepare("insert into RemontPStep (RemontPId,StatusId,Comment,DateStep) "
+                  "output inserted.id values(:RemontPId,:StatusId,:Comment,:DateStep)");
+
+    query.bindValue(":RemontPId", remStep.RemontMId);
     query.bindValue(":StatusId", remStep.StatusId);
     query.bindValue(":Comment", remStep.Comment);
     query.bindValue(":DateStep", remStep.dateStep);
@@ -451,7 +592,7 @@ void RepoMSSQL::LoadRemontM(QList<RemontM> &list, int idModul)
         rem.remark = query.value(5).toString();
         rem.reasonName = query.value(6).toString();
         rem.EndDate = query.value(7).toDateTime();
-        rem.modulId = idModul;
+        rem.EntityId = idModul;
 
         list.push_back(rem);
         LoadRemontMStep(list.last());
@@ -515,6 +656,63 @@ void RepoMSSQL::LoadRemontStatus(QList<RemontStepStatus> &listStatus, RemontStep
         status.inWork = query.value(2).toInt();;
 
         listStatus.push_back(status);
+    }
+
+}
+
+//------------------------------------------------------------------------------------------------------
+// Загрузка списка ремонтов
+//------------------------------------------------------------------------------------------------------
+void RepoMSSQL::LoadRemontP(QList<RemontM> &list, int id)
+{
+    list.clear();
+    QSqlQuery query;
+    query.prepare("select r.id,WorkDate,ReasonId,Action,Defect,Remark,rr.name,EndDate "
+                  "from RemontP r join RemontReason rr on rr.id=r.ReasonId where r.ProductId = :ProductId");
+
+    query.bindValue(":ProductId", id);
+
+    query.exec();
+    while(query.next())
+    {
+        RemontM rem;
+        rem.id = query.value(0).toInt();
+        rem.workDate = query.value(1).toDateTime();
+        rem.reasonId = query.value(2).toInt();
+        rem.action = query.value(3).toString();
+        rem.defect = query.value(4).toString();
+        rem.remark = query.value(5).toString();
+        rem.reasonName = query.value(6).toString();
+        rem.EndDate = query.value(7).toDateTime();
+        rem.EntityId = id;
+
+        list.push_back(rem);
+        LoadRemontPStep(list.last());
+    }
+}
+
+void RepoMSSQL::LoadRemontPStep(RemontM &rem)
+{
+    rem.listRemStep.clear();
+    QSqlQuery query;
+    query.prepare("select rs.id,StatusId,Comment,DateStep,rss.NameStatus,rss.InWork "
+                  "from RemontPStep rs join RemontStepStatus rss on rss.id=rs.StatusId where rs.RemontPId = :RemontPId");
+
+    query.bindValue(":RemontPId", rem.id);
+
+    query.exec();
+    while(query.next())
+    {
+        RemontStep step;
+        step.id = query.value(0).toInt();
+        step.StatusId = query.value(1).toInt();
+        step.Comment = query.value(2).toString();
+        step.dateStep = query.value(3).toDateTime();
+        step.status.name = query.value(4).toString();
+        step.status.id = step.StatusId;
+        step.status.inWork = query.value(5).toBool();
+        step.RemontMId = rem.id;
+        rem.listRemStep.push_back(step);
     }
 
 }
@@ -700,7 +898,6 @@ void RepoMSSQL::LoadClaimType(QMap<int, QString> &listTypeClaim)
         listTypeClaim.insert(query.value(0).toInt(), query.value(1).toString());
     }
 }
-
 
 //------------------------------------------------------------------------------------------------------
 // Загрузка типов модулей

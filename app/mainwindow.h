@@ -27,6 +27,10 @@ private slots:
 
     void on_pbClaim_clicked();
 
+    void on_pbCard_clicked();
+
+    void on_pbApplyRemont_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

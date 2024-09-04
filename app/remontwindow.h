@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include <models/modul.h>
+#include <models/remontentity.h>
 #include <models/remontm.h>
 
 namespace Ui {
@@ -17,15 +18,18 @@ class RemontWindow : public QDialog
 public:
     // QList<RemontM> *listRemont;
 
-    explicit RemontWindow(Modul *modul, QWidget *parent = nullptr);
+    explicit RemontWindow(RemontEntity *modul, QWidget *parent = nullptr);
     ~RemontWindow();
 
 private slots:
     void on_pbOK_clicked();
 
+    void on_tbClaim_clicked();
+
 private:
     Ui::RemontWindow *ui;
-    Modul *modul;
+    // Modul *modul;
+    RemontEntity *remontEntity;
     RepoMSSQL repo;
     QList<RemontStepStatus> listStatus;
 

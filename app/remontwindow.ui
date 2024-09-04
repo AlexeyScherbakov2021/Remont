@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>444</width>
-    <height>417</height>
+    <height>376</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -109,7 +109,7 @@
     <rect>
      <x>130</x>
      <y>30</y>
-     <width>220</width>
+     <width>201</width>
      <height>24</height>
     </rect>
    </property>
@@ -174,7 +174,7 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>340</y>
+     <y>300</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -186,8 +186,8 @@
   <widget class="QPushButton" name="pbCancel">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>340</y>
+     <x>210</x>
+     <y>300</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -204,6 +204,19 @@
      <width>221</width>
      <height>24</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="tbClaim">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>30</y>
+     <width>23</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>...</string>
    </property>
   </widget>
  </widget>

@@ -3,6 +3,7 @@
 
 #include "basemodel.h"
 #include "remontm.h"
+#include "status.h"
 #include <QString>
 
 
@@ -19,6 +20,7 @@ public:
     bool isZip;
 
     QList<RemontM> listRemont;
+    QList<Status> listStatus;
 
     Modul() : id{0} {}
 };

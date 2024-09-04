@@ -4,6 +4,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
+VERSION = 1.0.0.0
+QMAKE_TARGGET_COMPANY = NeftegazComplex
+QMAKE_TARGET_PRODUCT = Remont
+QMAKE_TARGET_DESCRIPTION = Description
+QMAKE_TARGET_COPYRIGHT = Alex
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -16,7 +21,8 @@ SOURCES += \
     mainwindow.cpp \
     remontstatuswindow.cpp \
     remontwindow.cpp \
-    repomssql.cpp
+    repomssql.cpp \
+    selectdevicewindow.cpp
 
 HEADERS += \
     cardprodwindow.h \
@@ -26,14 +32,17 @@ HEADERS += \
     models/claim.h \
     models/modul.h \
     models/product.h \
+    models/remontentity.h \
     models/remontm.h \
     models/remontstep.h \
     models/remontstepstatus.h \
     models/setterout.h \
     models/shipment.h \
+    models/status.h \
     remontstatuswindow.h \
     remontwindow.h \
-    repomssql.h
+    repomssql.h \
+    selectdevicewindow.h
 
 FORMS += \
     cardprodwindow.ui \
@@ -41,7 +50,8 @@ FORMS += \
     claimwindow.ui \
     mainwindow.ui \
     remontstatuswindow.ui \
-    remontwindow.ui
+    remontwindow.ui \
+    selectdevicewindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -32,8 +32,10 @@ public:
     QString shunt;
 
     QList<Modul> listModules;
+    QList<RemontM> listRemont;
+    QList<Status> listStatus;
 
-    Product() : id{0} {}
+    Product() : id{0} { }
 
 };
 

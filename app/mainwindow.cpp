@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "cardprodwindow.h"
 #include "claimwindow.h"
+#include "selectdevicewindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,8 +46,9 @@ void MainWindow::on_btSearch_clicked()
         item->setText(it.name);
         ui->twModul->setItem(row, 1, item);
 
-
     }
+    ui->twModul->resizeColumnsToContents();
+    ui->twModul->resizeRowsToContents();
 
     QList<Product> listProduct;
     repo.FindProduct(ui->leSearch->text(), listProduct);
@@ -65,8 +67,9 @@ void MainWindow::on_btSearch_clicked()
         item = new QTableWidgetItem();
         item->setText(it.name);
         ui->twProduct->setItem(row, 1, item);
-
     }
+    ui->twProduct->resizeColumnsToContents();
+    ui->twProduct->resizeRowsToContents();
 
 }
 
@@ -78,7 +81,7 @@ void MainWindow::on_twProduct_cellDoubleClicked(int row, int /*column*/)
 
     Product prod = repo.GetProduct(id);
 
-    CardProdWindow *card = new CardProdWindow(&prod, this);
+    CardProdWindow *card = new CardProdWindow(prod, this);
     card->show();
 }
 
@@ -102,5 +105,35 @@ void MainWindow::on_pbClaim_clicked()
 {
     ClaimWindow *win = new ClaimWindow;
     win->show();
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Карточка устройства
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbCard_clicked()
+{
+    SelectDeviceWindow *win = new SelectDeviceWindow(this);
+    if(win->exec() == QDialog::Accepted)
+    {
+        CardProdWindow *winCard;
+        if(win->prod != nullptr)
+            winCard = new CardProdWindow(*win->prod, this);
+        else if(win->modul != nullptr)
+            winCard = new CardProdWindow(*win->modul, this);
+        else
+            return;
+
+        winCard->show();
+    }
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Принять в ремонт
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbApplyRemont_clicked()
+{
+
 }
 

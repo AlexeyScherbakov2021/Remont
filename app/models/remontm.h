@@ -11,7 +11,7 @@ class RemontM
 {
 public:
     int id;
-    int modulId;
+    int EntityId;
     QString reclamtion;
     QDateTime workDate;
     int reasonId;

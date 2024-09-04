@@ -4,9 +4,9 @@
 
 #include <QMessageBox>
 
-ClaimWindow::ClaimWindow(QWidget *parent)
+ClaimWindow::ClaimWindow(QWidget *parent, bool isSelected)
     : QDialog(parent)
-    , ui(new Ui::ClaimWindow)
+    , ui(new Ui::ClaimWindow), isSelected(isSelected)
 {
     ui->setupUi(this);
 
@@ -17,6 +17,7 @@ ClaimWindow::ClaimWindow(QWidget *parent)
     ui->twClaim->resizeColumnsToContents();
     ui->twClaim->resizeRowsToContents();
 
+    ui->pbSelect->setVisible(isSelected);
 }
 
 ClaimWindow::~ClaimWindow()
@@ -196,8 +197,29 @@ void ClaimWindow::on_pbEdit_clicked()
 }
 
 
+//----------------------------------------------------------------------------------------
+// Кнопка Изменить рекламацию двойной клик
+//----------------------------------------------------------------------------------------
 void ClaimWindow::on_twClaim_cellDoubleClicked(int /*row*/, int /*column*/)
 {
-    on_pbEdit_clicked();
+    if(isSelected)
+        on_pbSelect_clicked();
+    else
+        on_pbEdit_clicked();
+}
+
+
+//----------------------------------------------------------------------------------------
+// Кнопка Выбрать рекламацию
+//----------------------------------------------------------------------------------------
+void ClaimWindow::on_pbSelect_clicked()
+{
+    int row = ui->twClaim->currentRow();
+    if(row < 0 )
+        return;
+
+    selectedClaim = listClaim[row];
+
+    accept();
 }
 

@@ -21,6 +21,7 @@ public:
     QString cardOrder;
     QString numberUPD;
     QString buyer;
+    QDateTime dateUPD;
 
     QList<Product> listProduct;
     QList<SetterOut> listSetterOut;

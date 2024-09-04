@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Список рекламаций</string>
   </property>
   <widget class="QTableWidget" name="twClaim">
    <property name="geometry">
@@ -139,6 +139,19 @@
    </property>
    <property name="text">
     <string>Удалить</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbSelect">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>40</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Выбрать</string>
    </property>
   </widget>
  </widget>

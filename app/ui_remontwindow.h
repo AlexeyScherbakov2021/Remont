@@ -17,6 +17,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QToolButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -39,12 +40,13 @@ public:
     QPushButton *pbOK;
     QPushButton *pbCancel;
     QComboBox *cbStatus;
+    QToolButton *tbClaim;
 
     void setupUi(QDialog *RemontWindow)
     {
         if (RemontWindow->objectName().isEmpty())
             RemontWindow->setObjectName("RemontWindow");
-        RemontWindow->resize(444, 417);
+        RemontWindow->resize(444, 376);
         label = new QLabel(RemontWindow);
         label->setObjectName("label");
         label->setGeometry(QRect(30, 34, 100, 16));
@@ -68,7 +70,7 @@ public:
         label_7->setGeometry(QRect(27, 224, 100, 16));
         leReclamation = new QLineEdit(RemontWindow);
         leReclamation->setObjectName("leReclamation");
-        leReclamation->setGeometry(QRect(130, 30, 220, 24));
+        leReclamation->setGeometry(QRect(130, 30, 201, 24));
         leAction = new QLineEdit(RemontWindow);
         leAction->setObjectName("leAction");
         leAction->setGeometry(QRect(130, 120, 220, 24));
@@ -87,13 +89,16 @@ public:
         cbReason->setGeometry(QRect(130, 90, 220, 24));
         pbOK = new QPushButton(RemontWindow);
         pbOK->setObjectName("pbOK");
-        pbOK->setGeometry(QRect(110, 340, 80, 24));
+        pbOK->setGeometry(QRect(110, 300, 80, 24));
         pbCancel = new QPushButton(RemontWindow);
         pbCancel->setObjectName("pbCancel");
-        pbCancel->setGeometry(QRect(230, 340, 80, 24));
+        pbCancel->setGeometry(QRect(210, 300, 80, 24));
         cbStatus = new QComboBox(RemontWindow);
         cbStatus->setObjectName("cbStatus");
         cbStatus->setGeometry(QRect(130, 220, 221, 24));
+        tbClaim = new QToolButton(RemontWindow);
+        tbClaim->setObjectName("tbClaim");
+        tbClaim->setGeometry(QRect(330, 30, 23, 23));
 
         retranslateUi(RemontWindow);
         QObject::connect(pbCancel, &QPushButton::clicked, RemontWindow, qOverload<>(&QDialog::reject));
@@ -116,6 +121,7 @@ public:
         label_7->setText(QCoreApplication::translate("RemontWindow", "\320\241\321\202\320\260\321\202\321\203\321\201", nullptr));
         pbOK->setText(QCoreApplication::translate("RemontWindow", "OK", nullptr));
         pbCancel->setText(QCoreApplication::translate("RemontWindow", "\320\236\321\202\320\274\320\265\320\275\320\270\321\202\321\214", nullptr));
+        tbClaim->setText(QCoreApplication::translate("RemontWindow", "...", nullptr));
     } // retranslateUi
 
 };

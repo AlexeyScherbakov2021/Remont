@@ -21,15 +21,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_btSearch_clicked();
-    void on_twProduct_cellDoubleClicked(int row, int column);
-    void on_twModul_cellDoubleClicked(int row, int column);
-
     void on_pbClaim_clicked();
-
     void on_pbCard_clicked();
-
     void on_pbApplyRemont_clicked();
+
+    void on_pbRegister_clicked();
+
+    void on_pbOTK_clicked();
 
 private:
     Ui::MainWindow *ui;

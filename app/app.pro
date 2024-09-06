@@ -17,8 +17,10 @@ SOURCES += \
     cardprodwindow.cpp \
     claimdetail.cpp \
     claimwindow.cpp \
+    createdevicewindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    otkcontrolwindow.cpp \
     remontstatuswindow.cpp \
     remontwindow.cpp \
     repomssql.cpp \
@@ -28,6 +30,7 @@ HEADERS += \
     cardprodwindow.h \
     claimdetail.h \
     claimwindow.h \
+    createdevicewindow.h \
     mainwindow.h \
     models/claim.h \
     models/modul.h \
@@ -39,6 +42,7 @@ HEADERS += \
     models/setterout.h \
     models/shipment.h \
     models/status.h \
+    otkcontrolwindow.h \
     remontstatuswindow.h \
     remontwindow.h \
     repomssql.h \
@@ -48,7 +52,9 @@ FORMS += \
     cardprodwindow.ui \
     claimdetail.ui \
     claimwindow.ui \
+    createdevicewindow.ui \
     mainwindow.ui \
+    otkcontrolwindow.ui \
     remontstatuswindow.ui \
     remontwindow.ui \
     selectdevicewindow.ui

@@ -6,6 +6,11 @@ SelectDeviceWindow::SelectDeviceWindow(QWidget *parent)
     , ui(new Ui::SelectDeviceWindow)
 {
     ui->setupUi(this);
+
+    // Device<Modul> dev;
+    // Device<Product> devProd;
+    // RepoMSSQL rep;
+    // rep.FindProduct("", devProd.listDevice);
 }
 
 SelectDeviceWindow::~SelectDeviceWindow()
@@ -30,7 +35,7 @@ void SelectDeviceWindow::on_tbSearch_clicked()
     int row = 0;
     for(auto const &it : listModul)
     {
-        ui->twModul->insertRow(0);
+        ui->twModul->insertRow(row);
         QTableWidgetItem *item = new QTableWidgetItem();
         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         item->setText(it.number);
@@ -42,6 +47,15 @@ void SelectDeviceWindow::on_tbSearch_clicked()
         item->setText(it.name);
         ui->twModul->setItem(row, 1, item);
 
+        if(it.listStatus.size() > 0)
+        {
+            item = new QTableWidgetItem();
+            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            item->setText(it.listStatus.last().nameStatus);
+            ui->twModul->setItem(row, 2, item);
+        }
+        ++row;
+
     }
     ui->twModul->resizeColumnsToContents();
     ui->twModul->resizeRowsToContents();
@@ -51,7 +65,7 @@ void SelectDeviceWindow::on_tbSearch_clicked()
     row = 0;
     for(auto const &it : listProduct)
     {
-        ui->twProduct->insertRow(0);
+        ui->twProduct->insertRow(row);
         QTableWidgetItem *item = new QTableWidgetItem();
         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         item->setText(it.number);
@@ -64,6 +78,16 @@ void SelectDeviceWindow::on_tbSearch_clicked()
         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         item->setText(it.name);
         ui->twProduct->setItem(row, 1, item);
+
+        if(it.listStatus.size() > 0)
+        {
+            item = new QTableWidgetItem();
+            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            item->setText(it.listStatus.last().nameStatus);
+            ui->twProduct->setItem(row, 2, item);
+        }
+
+        ++row;
     }
     ui->twProduct->resizeColumnsToContents();
     ui->twProduct->resizeRowsToContents();
@@ -82,6 +106,9 @@ void SelectDeviceWindow::on_tbSearch_clicked()
 //--------------------------------------------------------------------------------------------------
 void SelectDeviceWindow::on_pbSelect_clicked()
 {
+    qDebug() << ui->twProduct->currentRow() << ui->twModul->currentRow();
+
+
     if(ui->tabWidget->currentIndex() == 0 && ui->twProduct->currentRow() >= 0)
         prod = &listProduct[ui->twProduct->currentRow()];
 

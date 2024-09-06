@@ -50,8 +50,6 @@ bool RepoMSSQL::ConnectDb()
         // qDebug() << "Ошибка соединения с базой данных." << db.lastError().text();
         return false;
     }
-
-
     // qDebug() << "Содединение с базой успешно.";
     return true;
 }
@@ -64,7 +62,7 @@ void RepoMSSQL::FindModul(const QString &serialNumber, QList<Modul> &listModul)
     listModul.clear();
     QSqlQuery query;
     query.prepare("select id,idShipment,idProduct,m_modTypeId,m_name,m_number,m_numberFW,m_dateEnd,m_dateCreate,m_zip "
-                     "from Modules where m_number like :number");
+                     "from Modules where m_number like :number order by m_name");
 
     query.bindValue(":number", QString("%%1%").arg(serialNumber));
 
@@ -151,6 +149,34 @@ Modul RepoMSSQL::GetModul(const int id)
     return mod;
 }
 
+void RepoMSSQL::LoadModuls(QList<Modul> &listModul, int typeStatus)
+{
+    // listModul.clear();
+    // QSqlQuery query;
+    // query.prepare("select id,idShipment,idProduct,m_modTypeId,m_name,m_number,m_numberFW,m_dateEnd,m_dateCreate,m_zip "
+    //               "from Modules where  order by m_name");
+
+    // query.bindValue(":number", QString("%%1%").arg(serialNumber));
+
+    // query.exec();
+    // while(query.next())
+    // {
+    //     Modul mod;
+
+    //     mod.id = query.value(0).toInt();
+    //     mod.idShipment = query.value(1).toInt();
+    //     mod.idProduct = query.value(2).toInt();
+    //     mod.modTypeId = query.value(3).toInt();
+    //     mod.name = query.value(4).toString();
+    //     mod.number = query.value(5).toString();
+    //     mod.numberFW = query.value(6).toString();
+    //     mod.isZip = query.value(9).toBool();
+    //     LoadStatus(mod);
+    //     listModul.push_back(mod);
+    // }
+
+}
+
 //------------------------------------------------------------------------------------------------------
 // Поиск изделий по строке серийного номера
 //------------------------------------------------------------------------------------------------------
@@ -161,7 +187,7 @@ void RepoMSSQL::FindProduct(const QString &serialNumber, QList<Product> &listPro
     query.prepare("select id,idShipment,idSetter,g_ProductTypeId,g_name,g_number,g_numberBox,g_dateRegister,"
                   "g_redaction1,g_redaction2,g_redactionPS,g_questList,g_avr,g_akb,g_cooler,g_skm,g_numberBI,"
                   "g_numberUSIKP,g_shunt,g_zip "
-                  "from Product where g_number like :number");
+                  "from Product where g_number like :number order by g_name");
 
     query.bindValue(":number", QString("%%1%").arg(serialNumber));
 

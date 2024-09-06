@@ -27,5 +27,14 @@ public:
 
 //============================================================================================
 
+// template<typename T>
+// class Device
+// {
+// public:
+//     QList<T> listDevice;
+
+// };
+
+
 
 #endif // MODUL_H

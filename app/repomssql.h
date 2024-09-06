@@ -49,16 +49,17 @@ public:
 
     void FindModul(const QString &serialNumber, QList<Modul> &listModul);
     Modul GetModul(const int id);
+    void LoadModuls(QList<Modul> &listModul, int type);
+    void LoadModuleType(QMap<int, QString> &listTypeModule);
 
     SetterOut GetSetterOut(int id);
     void LoadChildSetter(SetterOut &setter);
 
     Shipment GetShipment(int id);
 
-    void LoadModuleType(QMap<int, QString> &listTypeModule);
-
     void FindProduct(const QString &serialNumber, QList<Product> &listModul);
     Product GetProduct(const int id);
+    void LoadProducts(QList<Product> &listModul, int type);
     void LoadChildProduct(Product &prod);
     void LoadProductType(QMap<int, QString> &listTypeProduct);
 

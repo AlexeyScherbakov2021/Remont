@@ -553,6 +553,7 @@ debug\tst_testremont.moc: tst_testremont.cpp \
 		..\app\models\claim.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QDateTime \
 		..\app\models\remontstepstatus.h \
+		..\app\models\status.h \
 		..\app\models\remontm.h \
 		..\app\models\remontstep.h \
 		..\app\models\setterout.h \
@@ -970,6 +971,7 @@ debug\tst_testremont.obj: tst_testremont.cpp C:\Qt\6.6.2\msvc2019_64\include\QtT
 		..\app\models\claim.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QDateTime \
 		..\app\models\remontstepstatus.h \
+		..\app\models\status.h \
 		..\app\models\remontm.h \
 		..\app\models\remontstep.h \
 		..\app\models\setterout.h \
@@ -1107,6 +1109,7 @@ debug\repomssql.obj: ..\app\repomssql.cpp ..\app\models\product.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qlocale.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QString \
 		..\app\models\remontstepstatus.h \
+		..\app\models\status.h \
 		..\app\models\remontm.h \
 		..\app\models\remontstep.h \
 		..\app\models\setterout.h \

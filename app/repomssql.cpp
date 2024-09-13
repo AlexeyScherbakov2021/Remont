@@ -1159,7 +1159,7 @@ bool RepoMSSQL::DeleteClaim(int id)
     res = query.exec();
 
     if(!res)
-        qDebug() << "Ошибка при добавлении записи в Claim";
+        qDebug() << "Ошибка при удалении записи в Claim";
 
     return res;
 
@@ -1213,7 +1213,7 @@ bool RepoMSSQL::AddModul(Modul &modul)
 
     res = query.exec();
     if(!res)
-        qDebug() << "Ошибка при добавлении записи в RemontM";
+        qDebug() << "Ошибка при добавлении записи в Modules";
     else
     {
         if(query.next())
@@ -1235,6 +1235,32 @@ bool RepoMSSQL::DeleteModul(int id)
 
     if(!res)
         qDebug() << "Ошибка при добавлении записи в RemontM";
+
+    return res;
+
+}
+
+bool RepoMSSQL::AddStatusModul(Status &status)
+{
+    bool res;
+    QSqlQuery query;
+
+    query.prepare("insert into ModulStatus (idModul,idStatus,DateStatus,Comment) "
+                  "output inserted.id values(:idModul,:idStatus,:DateStatus,:Comment)");
+
+    query.bindValue(":idModul", status.idDevice);
+    query.bindValue(":idStatus", status.idStatus);
+    query.bindValue(":DateStatus", status.dateStatus);
+    query.bindValue(":Comment", status.Comment);
+
+    res = query.exec();
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в ModulStatus";
+    else
+    {
+        if(query.next())
+            status.id = query.value(0).toInt();
+    }
 
     return res;
 
@@ -1289,7 +1315,7 @@ bool RepoMSSQL::AddProduct(Product &prod)
 
     res = query.exec();
     if(!res)
-        qDebug() << "Ошибка при добавлении записи в RemontM";
+        qDebug() << "Ошибка при добавлении записи в Product";
     else
     {
         if(query.next())
@@ -1310,7 +1336,33 @@ bool RepoMSSQL::DeleteProduct(int id)
     res = query.exec();
 
     if(!res)
-        qDebug() << "Ошибка при добавлении записи в RemontM";
+        qDebug() << "Ошибка при удалении записи в Product";
+
+    return res;
+
+}
+
+bool RepoMSSQL::AddStatusProduct(Status &status)
+{
+    bool res;
+    QSqlQuery query;
+
+    query.prepare("insert into ProductStatus (idProduct,idStatus,DateStatus,Comment) "
+                  "output inserted.id values(:idProduct,:idStatus,:DateStatus,:Comment)");
+
+    query.bindValue(":idProduct", status.idDevice);
+    query.bindValue(":idStatus", status.idStatus);
+    query.bindValue(":DateStatus", status.dateStatus);
+    query.bindValue(":Comment", status.Comment);
+
+    res = query.exec();
+    if(!res)
+        qDebug() << "Ошибка при добавлении записи в ModulStatus";
+    else
+    {
+        if(query.next())
+            status.id = query.value(0).toInt();
+    }
 
     return res;
 

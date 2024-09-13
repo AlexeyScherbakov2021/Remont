@@ -14,6 +14,8 @@ public:
     QString nameStatus;
     QDateTime dateStatus;
     QString Comment;
+
+    Status() : id(0), dateStatus(QDateTime::currentDateTime()) {}
 };
 
 

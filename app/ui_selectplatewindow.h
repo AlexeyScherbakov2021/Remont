@@ -65,6 +65,9 @@ public:
         QObject::connect(pbCancel, &QPushButton::clicked, SelectPlateWindow, qOverload<>(&QDialog::reject));
         QObject::connect(pbSelect, &QPushButton::clicked, SelectPlateWindow, qOverload<>(&QDialog::accept));
 
+        pbSelect->setDefault(true);
+
+
         QMetaObject::connectSlotsByName(SelectPlateWindow);
     } // setupUi
 

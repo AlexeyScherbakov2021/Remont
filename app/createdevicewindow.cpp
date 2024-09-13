@@ -158,6 +158,12 @@ void CreateDeviceWindow::on_pbNext_clicked()
         prod.dateRegister = QDateTime::currentDateTime();
         if(repo.AddProduct(prod))
         {
+            Status status;
+            status.idDevice = prod.id;
+            status.idStatus = 1;
+            status.dateStatus = QDateTime::currentDateTime();
+            repo.AddStatusProduct(status);
+
             s = ui->cbProduct->currentText();
             QListWidgetItem *item = new QListWidgetItem(ui->leNumProduct->text() + " (" + s + ")");
             item->setData(Qt::UserRole, prod.id);
@@ -187,6 +193,11 @@ void CreateDeviceWindow::on_pbNext_clicked()
         if(repo.AddModul(mod))
         {
             repo.LinkPlate(selectIdPlate, mod.id);
+            Status status;
+            status.idDevice = mod.id;
+            status.idStatus = 1;
+            status.dateStatus = QDateTime::currentDateTime();
+            repo.AddStatusModul(status);
             s = ui->cbModul->currentText();
             QListWidgetItem *item = new QListWidgetItem(ui->leNumModul->text() + " (" + s + ")");
             item->setData(Qt::UserRole, mod.id);

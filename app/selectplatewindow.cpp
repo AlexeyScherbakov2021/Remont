@@ -43,6 +43,7 @@ SelectPlateWindow::SelectPlateWindow(QList<Plate> &listPlate, QWidget *parent)
 
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->resizeRowsToContents();
+    ui->tableWidget->setCurrentCell(0, 0);
 }
 
 SelectPlateWindow::~SelectPlateWindow()

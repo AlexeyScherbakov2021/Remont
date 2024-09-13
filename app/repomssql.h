@@ -55,6 +55,7 @@ public:
     void LoadModuleType(QMap<int, QString> &listTypeModule);
     bool AddModul(Modul &modul);
     bool DeleteModul(int id);
+    bool AddStatusModul(Status &status);
 
     SetterOut GetSetterOut(int id);
     void LoadChildSetter(SetterOut &setter);
@@ -69,6 +70,7 @@ public:
     void LoadProductType(QMap<int, QString> &listTypeProduct);
     bool AddProduct(Product &prod);
     bool DeleteProduct(int id);
+    bool AddStatusProduct(Status &status);
 
     bool AddRemontM(RemontM& rem);
     bool AddRemontMStep(RemontStep &remStep);

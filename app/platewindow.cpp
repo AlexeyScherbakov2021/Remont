@@ -18,6 +18,11 @@ PlateWindow::~PlateWindow()
 
 void PlateWindow::on_pbAdd_clicked()
 {
+    ui->leNumber->setFocus();
+
+    if(ui->leNumber->text().isEmpty())
+        return;
+
     Plate plate;
     plate.createDate = ui->deCreateDate->dateTime();
     plate.number = ui->leNumber->text();
@@ -25,19 +30,9 @@ void PlateWindow::on_pbAdd_clicked()
     plate.numberDoc = ui->leNumberDoc->text();
     plate.VNFT = ui->leVNFT->text();
 
-    // if(listAddPlate.contains(plate.number))
-    // {
-    //     QMessageBox::critical(this, "Ошибка", QString("Серийный № {1} уже существует.").arg(plate.number));
-    // }
-    // else
-    // {
-    //     listAddPlate.insert(plate.number, plate);
-
-    // }
-
     if(!repo.InsertPlate(plate))
     {
-        QMessageBox::critical(this, "Ошибка", QString("Серийный № {1} уже существует.").arg(plate.number));
+        QMessageBox::critical(this, "Ошибка", QString("Серийный № %1 уже существует.").arg(plate.number));
         return;
     }
     else
@@ -46,11 +41,9 @@ void PlateWindow::on_pbAdd_clicked()
         item->setData(Qt::UserRole, plate.id);
         ui->listWidget->addItem(item);
         ui->leNumber->clear();
-        ui->leNumber->setFocus();
 
     }
 
-    // accept();
 }
 
 

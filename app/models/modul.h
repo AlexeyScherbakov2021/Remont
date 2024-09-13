@@ -18,12 +18,22 @@ public:
     QString number;
     QString numberFW;
     bool isZip;
+    QDateTime dateCreate;
 
     QList<RemontM> listRemont;
     QList<Status> listStatus;
 
     Modul() : id{0} {}
+
+    bool operator==(const Modul &other) const { return this->id == other.id; }
+
+
+
 };
+
+inline size_t qHash(const Modul &key/*, uint seed*/){
+    return qHash(key.id);
+}
 
 //============================================================================================
 

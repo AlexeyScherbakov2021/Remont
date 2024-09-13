@@ -34,7 +34,7 @@ void ClaimDetail::on_pbOK_clicked()
     claim->Number = ui->leNumber->text();
     claim->DateClaim = ui->deDateClaim->dateTime();
     claim->FromWho = ui->leFromWho->text();
-    claim->Organization = ui->leOrganiz->text();
+    // claim->idOrg = ui->leOrganiz->text();
     claim->ObjectInstall = ui->leObjectInst->text();
     claim->Descript = ui->leDescript->text();
     // claim->VNFT = ui->leVNFT->text();
@@ -61,7 +61,7 @@ void ClaimDetail::ClaimToScreen(Claim *claim)
     ui->leNumber->setText(claim->Number);
     ui->deDateClaim->setDateTime(claim->DateClaim);
     ui->leFromWho->setText(claim->FromWho);
-    ui->leOrganiz->setText(claim->Organization);
+    // ui->leOrganiz->setText(claim->idOrg);
     ui->leObjectInst->setText(claim->ObjectInstall);
     ui->leDescript->setText(claim->Descript);
     // ui->leVNFT->setText(claim->VNFT);

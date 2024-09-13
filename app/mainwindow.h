@@ -29,6 +29,12 @@ private slots:
 
     void on_pbOTK_clicked();
 
+    void on_pbCreatePlate_clicked();
+
+    void on_pbShip_clicked();
+
+    void on_pbComplect_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

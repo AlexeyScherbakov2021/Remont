@@ -5,6 +5,9 @@
 #include "selectdevicewindow.h"
 #include "createdevicewindow.h"
 #include "otkcontrolwindow.h"
+#include "platewindow.h"
+#include "complectproductwindow.h"
+#include "shipwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -62,6 +65,9 @@ void MainWindow::on_pbApplyRemont_clicked()
 }
 
 
+//----------------------------------------------------------------------------------------------
+// Кнопка Регистрация устройства
+//----------------------------------------------------------------------------------------------
 void MainWindow::on_pbRegister_clicked()
 {
     CreateDeviceWindow *win = new CreateDeviceWindow(this);
@@ -70,10 +76,41 @@ void MainWindow::on_pbRegister_clicked()
 }
 
 
+//----------------------------------------------------------------------------------------------
+// Кнопка Проверка ОТК
+//----------------------------------------------------------------------------------------------
 void MainWindow::on_pbOTK_clicked()
 {
     OTKControlWindow *win = new OTKControlWindow(this);
     win->setAttribute(Qt::WA_DeleteOnClose);
     win->show();
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Регистрация платы
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbCreatePlate_clicked()
+{
+    PlateWindow *win = new PlateWindow(this);
+    win->exec();
+
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Отгрузка
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbShip_clicked()
+{
+    ShipWindow *win = new ShipWindow(this);
+    win->exec();
+}
+
+
+void MainWindow::on_pbComplect_clicked()
+{
+    ComplectProductWindow *win = new ComplectProductWindow(this);
+    win->exec();
 }
 

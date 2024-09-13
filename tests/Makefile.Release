@@ -551,13 +551,13 @@ release\tst_testremont.moc: tst_testremont.cpp \
 		C:\Qt\6.6.2\msvc2019_64\include\QtSql\qsqlquery.h \
 		..\app\models\claim.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QDateTime \
+		..\app\models\plates.h \
 		..\app\models\remontstepstatus.h \
 		..\app\models\status.h \
 		..\app\models\remontm.h \
 		..\app\models\remontstep.h \
 		..\app\models\setterout.h \
 		..\app\models\shipment.h \
-		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qtmochelpers.h \
 		release\moc_predefs.h \
 		C:\Qt\6.6.2\msvc2019_64\bin\moc.exe
 	C:\Qt\6.6.2\msvc2019_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/Work/QT/Remont/tests/release/moc_predefs.h -IC:/Qt/6.6.2/msvc2019_64/mkspecs/win32-msvc -ID:/Work/QT/Remont/tests -ID:/Work/QT/Remont/app -IC:/Qt/6.6.2/msvc2019_64/include -IC:/Qt/6.6.2/msvc2019_64/include/QtTest -IC:/Qt/6.6.2/msvc2019_64/include/QtSql -IC:/Qt/6.6.2/msvc2019_64/include/QtCore -I"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.39.33519\include" -I"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.39.33519\ATLMFC\include" -I"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\VS\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um" -I"C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared" -I"C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt" -I"C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um" tst_testremont.cpp -o release\tst_testremont.moc
@@ -969,14 +969,14 @@ release\tst_testremont.obj: tst_testremont.cpp C:\Qt\6.6.2\msvc2019_64\include\Q
 		C:\Qt\6.6.2\msvc2019_64\include\QtSql\qsqlquery.h \
 		..\app\models\claim.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QDateTime \
+		..\app\models\plates.h \
 		..\app\models\remontstepstatus.h \
 		..\app\models\status.h \
 		..\app\models\remontm.h \
 		..\app\models\remontstep.h \
 		..\app\models\setterout.h \
 		..\app\models\shipment.h \
-		release\tst_testremont.moc \
-		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qtmochelpers.h
+		release\tst_testremont.moc
 
 release\repomssql.obj: ..\app\repomssql.cpp ..\app\models\product.h \
 		..\app\models\modul.h \
@@ -1107,6 +1107,7 @@ release\repomssql.obj: ..\app\repomssql.cpp ..\app\models\product.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qcalendar.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\qlocale.h \
 		C:\Qt\6.6.2\msvc2019_64\include\QtCore\QString \
+		..\app\models\plates.h \
 		..\app\models\remontstepstatus.h \
 		..\app\models\status.h \
 		..\app\models\remontm.h \

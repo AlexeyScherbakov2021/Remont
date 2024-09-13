@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include <models/claim.h>
+#include <models/plates.h>
 #include <models/remontstepstatus.h>
 #include <models/status.h>
 
@@ -49,19 +50,25 @@ public:
 
     void FindModul(const QString &serialNumber, QList<Modul> &listModul);
     Modul GetModul(const int id);
-    void LoadModuls(QList<Modul> &listModul, int type);
+    void FindModulsStatus(QList<Modul> &listModul, QString serialNumber, int typeStatus);
+    void LoadModulsStatus(QList<Modul> &listModul, int typeStatus);
     void LoadModuleType(QMap<int, QString> &listTypeModule);
+    bool AddModul(Modul &modul);
+    bool DeleteModul(int id);
 
     SetterOut GetSetterOut(int id);
     void LoadChildSetter(SetterOut &setter);
 
     Shipment GetShipment(int id);
 
-    void FindProduct(const QString &serialNumber, QList<Product> &listModul);
+    void FindProduct(const QString &serialNumber, QList<Product> &listProduct);
     Product GetProduct(const int id);
-    void LoadProducts(QList<Product> &listModul, int type);
+    Product GetProduct(const QString number);
+    void LoadProducts(QList<Product> &listProduct, int idStatus);
     void LoadChildProduct(Product &prod);
     void LoadProductType(QMap<int, QString> &listTypeProduct);
+    bool AddProduct(Product &prod);
+    bool DeleteProduct(int id);
 
     bool AddRemontM(RemontM& rem);
     bool AddRemontMStep(RemontStep &remStep);
@@ -83,6 +90,12 @@ public:
 
     void LoadStatus(Modul &mod);
     void LoadStatus(Product &prod);
+
+    bool InsertPlate(Plate &plate);
+    bool DeletePlate(int id);
+    // Plate FindPlate(QString &number);
+    void FindPlate(QString &number, QList<Plate> &listPlate);
+    void LinkPlate( int idPlate, int idModul);
 };
 
 

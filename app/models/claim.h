@@ -13,7 +13,8 @@ public:
     QDateTime DateClaim;
     QString FromWho;
     int TypeClaimId;
-    QString Organization;
+    // QString Organization;
+    int idOrg;
     QString ObjectInstall;
     QString Descript;
     int TypeComplectId;

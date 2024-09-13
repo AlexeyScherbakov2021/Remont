@@ -35,7 +35,7 @@ public:
     QList<RemontM> listRemont;
     QList<Status> listStatus;
 
-    Product() : id{0} { }
+    Product() : id{0},isAvr{false},isAkb{false},isCooler{false},isSkm{false},isZip{false} { }
 
 };
 

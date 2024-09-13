@@ -1,6 +1,8 @@
 #ifndef CREATEDEVICEWINDOW_H
 #define CREATEDEVICEWINDOW_H
 
+#include "repomssql.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -16,14 +18,18 @@ public:
     ~CreateDeviceWindow();
 
 private slots:
-    void on_pbAdd_clicked();
-
-    void on_tbDelete_clicked();
+    void on_tbSearchPlate_clicked();
+    void on_tbDeleteModul_clicked();
+    void on_tbDeleteProduct_clicked();
+    void on_pbPrev_clicked();
+    void on_pbNext_clicked();
 
 private:
     Ui::CreateDeviceWindow *ui;
+    RepoMSSQL repo;
     QMap<int, QString> listTypeModule;
     QMap<int, QString> listTypeProduct;
+    int selectIdPlate;
 };
 
 #endif // CREATEDEVICEWINDOW_H

@@ -1,8 +1,11 @@
 #ifndef CLAIM_H
 #define CLAIM_H
 
+#include "product.h"
+#include "modul.h"
 #include <QDateTime>
 #include <QString>
+
 
 
 class Claim
@@ -34,6 +37,9 @@ public:
     QString TypeClaimString;
     QString TypeComplectString;
     QString TypeDeviceString;
+
+    QList<Modul> listModul;
+    QList<Product> listProduct;
 
     Claim() : id(0) {}
 

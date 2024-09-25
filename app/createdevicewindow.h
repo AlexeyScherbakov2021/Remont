@@ -4,6 +4,7 @@
 #include "repomssql.h"
 
 #include <QDialog>
+#include <QTreeWidget>
 
 namespace Ui {
 class CreateDeviceWindow;
@@ -21,15 +22,23 @@ private slots:
     void on_tbSearchPlate_clicked();
     void on_tbDeleteModul_clicked();
     void on_tbDeleteProduct_clicked();
-    void on_pbPrev_clicked();
-    void on_pbNext_clicked();
+
+    void on_pbRegProduct_clicked();
+
+    void on_pbRegModul_clicked();
+
+    void on_tbDelPlate_clicked();
 
 private:
     Ui::CreateDeviceWindow *ui;
     RepoMSSQL repo;
     QMap<int, QString> listTypeModule;
     QMap<int, QString> listTypeProduct;
-    int selectIdPlate;
+    // int selectIdPlate;
+    void addLinePlate(Plate *plate);
+    void addLineModul(Modul &mod);
+
+    QList<Plate> listAddingPlate;
 };
 
 #endif // CREATEDEVICEWINDOW_H

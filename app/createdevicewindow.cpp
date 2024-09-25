@@ -6,7 +6,7 @@
 
 CreateDeviceWindow::CreateDeviceWindow(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::CreateDeviceWindow), selectIdPlate(0)
+    , ui(new Ui::CreateDeviceWindow)/*, selectIdPlate(0)*/
 {
     ui->setupUi(this);
 
@@ -19,7 +19,6 @@ CreateDeviceWindow::CreateDeviceWindow(QWidget *parent)
     for(auto it = listTypeProduct.cbegin(); it != listTypeProduct.cend(); ++it)
         ui->cbProduct->addItem(*it, it.key());
 
-    ui->pbPrev->setVisible(false);
 
 }
 
@@ -35,10 +34,13 @@ CreateDeviceWindow::~CreateDeviceWindow()
 //---------------------------------------------------------------------------------
 void CreateDeviceWindow::on_tbDeleteModul_clicked()
 {
-    // удалить устройство из базы
-    int id = ui->lwModul->currentItem()->data(Qt::UserRole).toInt();
+    QTreeWidgetItem *item = ui->twModul->currentItem();
+    if(item->parent() != nullptr)
+        item = item->parent();
+
+    int id = item->data(0, Qt::UserRole).toInt();
     if(repo.DeleteModul(id))
-        delete ui->lwModul->currentItem();
+        delete item;
 }
 
 
@@ -49,6 +51,8 @@ void CreateDeviceWindow::on_tbSearchPlate_clicked()
 {
     QString s = ui->leSearchPlate->text();
     QList<Plate> listPlate;
+
+    // Убрать уже добавленные платы
     repo.FindPlate(s, listPlate);
 
     if(listPlate.size() == 0)
@@ -60,27 +64,21 @@ void CreateDeviceWindow::on_tbSearchPlate_clicked()
     {
         SelectPlateWindow win(listPlate, this);
         if(win.exec() == QDialog::Accepted)
-        {
             currentIndex = win.selectedIndex;
-        }
         else
             return;
     }
 
     Plate plate = listPlate.at(currentIndex);
 
-    selectIdPlate = plate.id;
-    ui->lbNumberPlate->setText(plate.number);
-    ui->lbDatePlate->setText(plate.createDate.toString("dd.MM.yyyy"));
-    ui->lbNumberFWPlate->setText(plate.numberFW);
-    ui->lbNumberDocPlate->setText(plate.numberDoc);
-    ui->lbVNFTPlate->setText(plate.VNFT);
+    // Сделать проверку на повтор
 
-    ui->lbNumberPlate_2->setText(plate.number);
-    ui->lbDatePlate_2->setText(plate.createDate.toString("dd.MM.yyyy"));
-    ui->lbNumberFWPlate_2->setText(plate.numberFW);
-    ui->lbNumberDocPlate_2->setText(plate.numberDoc);
-    ui->lbVNFTPlate_2->setText(plate.VNFT);
+    listAddingPlate.push_back(plate);
+
+    addLinePlate(&plate);
+    ui->twPlates->resizeColumnsToContents();
+    ui->twPlates->resizeRowsToContents();
+
 
 }
 
@@ -99,114 +97,151 @@ void CreateDeviceWindow::on_tbDeleteProduct_clicked()
 
 
 
-
 //---------------------------------------------------------------------------------
-// Кнопка Назад
+// Добавление строки в список плат
 //---------------------------------------------------------------------------------
-void CreateDeviceWindow::on_pbPrev_clicked()
+void CreateDeviceWindow::addLinePlate(Plate *plate)
 {
-    switch(ui->stackedWidget->currentIndex())
-    {
-        case 1:
-        case 2:
-            ui->stackedWidget->setCurrentIndex(0);
-            ui->pbPrev->setVisible(false);
-            break;
+    int row = ui->twPlates->rowCount();
+    ui->twPlates->insertRow(row);
 
-        case 3:
-            ui->stackedWidget->setCurrentIndex(2);
-            ui->leSearchPlate->setFocus();
-            break;
-    }
-    ui->pbNext->setText("Далее");
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setText(plate->number);
+    item->setData(Qt::UserRole, plate->id);
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->twPlates->setItem(row, 0, item);
+
+    item = new QTableWidgetItem();
+    item->setText(plate->numberFW);
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->twPlates->setItem(row, 1, item);
+
+    item = new QTableWidgetItem();
+    item->setText(plate->numberDoc);
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->twPlates->setItem(row, 2, item);
+
+    item = new QTableWidgetItem();
+    item->setText(plate->VNFT);
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->twPlates->setItem(row, 3, item);
+
+    item = new QTableWidgetItem();
+    item->setText(plate->createDate.toString("dd.MM.yyyy"));
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    ui->twPlates->setItem(row, 4, item);
+
 }
 
 
 
 //---------------------------------------------------------------------------------
-// Кнопка Вперед
+// Добавление строки в список модулей
 //---------------------------------------------------------------------------------
-void CreateDeviceWindow::on_pbNext_clicked()
+void CreateDeviceWindow::addLineModul(Modul &mod)
 {
-    QString s;
-    Product prod;
-    Modul mod;
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, mod.number);
+    item->setData(0, Qt::UserRole, mod.id);
+    ui->twModul->addTopLevelItem(item);
 
-    switch(ui->stackedWidget->currentIndex())
+    for(const auto &it : mod.listPlate)
     {
-    case 0:
-        if(ui->rbProd->isChecked())
-        {
-            ui->stackedWidget->setCurrentIndex(1);
-            ui->pbNext->setText("Добавить");
-        }
-        else
-        {
-            ui->stackedWidget->setCurrentIndex(2);
-            ui->leSearchPlate->setFocus();
-        }
-
-        ui->pbPrev->setVisible(true);
-        break;
-
-    case 1:
-        if(ui->leNumProduct->text().isEmpty())
-            return;
-        // Добавление изделия в  базу данных со статусом Создан
-        prod.number = ui->leNumProduct->text();
-        prod.prodTypeId = ui->cbProduct->currentData(Qt::UserRole).toInt();
-        prod.dateRegister = QDateTime::currentDateTime();
-        if(repo.AddProduct(prod))
-        {
-            Status status;
-            status.idDevice = prod.id;
-            status.idStatus = 1;
-            status.dateStatus = QDateTime::currentDateTime();
-            repo.AddStatusProduct(status);
-
-            s = ui->cbProduct->currentText();
-            QListWidgetItem *item = new QListWidgetItem(ui->leNumProduct->text() + " (" + s + ")");
-            item->setData(Qt::UserRole, prod.id);
-            ui->lwProduct->addItem(item);
-            ui->leNumProduct->clear();
-            ui->leNumProduct->setFocus();
-        }
-        break;
-
-    case 2:
-        ui->lbTypeModul->setText(ui->cbModul->currentText());
-        ui->stackedWidget->setCurrentIndex(3);
-        ui->pbNext->setText("Добавить");
-        ui->leNumModul->setFocus();
-
-        break;
-
-    case 3:
-        // проверка на дубликат номера
-        if(ui->leNumModul->text().isEmpty())
-            return;
-        // добавить устройство в базу со статусом Создан
-        mod.number = ui->leNumModul->text();
-        mod.modTypeId = ui->cbModul->currentData(Qt::UserRole).toInt();
-        mod.numberFW = ui->lbNumberFWPlate->text();
-        mod.dateCreate = QDateTime::currentDateTime();
-        if(repo.AddModul(mod))
-        {
-            repo.LinkPlate(selectIdPlate, mod.id);
-            Status status;
-            status.idDevice = mod.id;
-            status.idStatus = 1;
-            status.dateStatus = QDateTime::currentDateTime();
-            repo.AddStatusModul(status);
-            s = ui->cbModul->currentText();
-            QListWidgetItem *item = new QListWidgetItem(ui->leNumModul->text() + " (" + s + ")");
-            item->setData(Qt::UserRole, mod.id);
-            ui->lwModul->addItem(item);
-            ui->leNumModul->clear();
-            ui->leNumModul->setFocus();
-        }
-        break;
+        QTreeWidgetItem *child = new QTreeWidgetItem();
+        child->setText(0, it.number + " (FW: " + it.numberFW + ")");
+        item->addChild(child);
     }
+    item->setExpanded(true);
+
+}
+
+
+//---------------------------------------------------------------------------------
+// Кнопка Регистрации изделия
+//---------------------------------------------------------------------------------
+void CreateDeviceWindow::on_pbRegProduct_clicked()
+{
+    if(ui->leNumProduct->text().isEmpty())
+        return;
+
+    Product prod;
+    // Добавление изделия в  базу данных со статусом Создан
+    prod.number = ui->leNumProduct->text();
+    prod.name = ui->leNameProd->text();
+    prod.prodTypeId = ui->cbProduct->currentData(Qt::UserRole).toInt();
+    prod.dateRegister = QDateTime::currentDateTime();
+    if(repo.AddProduct(prod))
+    {
+        Status status;
+        status.idDevice = prod.id;
+        status.idStatus = Status::CREATE;
+        status.dateStatus = QDateTime::currentDateTime();
+        repo.AddStatusProduct(status);
+
+        QString s = ui->cbProduct->currentText();
+        QListWidgetItem *item = new QListWidgetItem(ui->leNumProduct->text() + " (" + s + ")");
+        item->setData(Qt::UserRole, prod.id);
+        ui->lwProduct->addItem(item);
+        ui->leNumProduct->clear();
+        ui->leNumProduct->setFocus();
+    }
+
+}
+
+
+//---------------------------------------------------------------------------------
+// Кнопка Регистрации модуля
+//---------------------------------------------------------------------------------
+void CreateDeviceWindow::on_pbRegModul_clicked()
+{
+    if(ui->leNumModul->text().isEmpty())
+        return;
+
+    Modul mod;
+    // добавить устройство в базу со статусом Создан
+    mod.number = ui->leNumModul->text();
+    mod.name = ui->leModulName->text();
+    mod.modTypeId = ui->cbModul->currentData(Qt::UserRole).toInt();
+    // mod.numberFW = ui->lbNumberFWPlate->text();
+    mod.dateCreate = QDateTime::currentDateTime();
+    mod.listPlate = listAddingPlate;
+    if(repo.AddModul(mod))
+    {
+        Status status;
+        status.idDevice = mod.id;
+        status.idStatus = Status::CREATE;
+        status.dateStatus = QDateTime::currentDateTime();
+        repo.AddStatusModul(status);
+        for(auto &it : mod.listPlate)
+            repo.LinkPlate(it.id, mod.id);
+
+        addLineModul(mod);
+        ui->leNumModul->clear();
+        ui->leNumModul->setFocus();
+    }
+
+    listAddingPlate.clear();
+    ui->twPlates->clear();
+}
+
+
+void CreateDeviceWindow::on_tbDelPlate_clicked()
+{
+    // QTableWidgetItem *item = ui->twPlates->currentItem();
+    // if(item == nullptr)
+    //     return;
+
+    // int id = item->data(Qt::UserRole).toInt();
+
+    int row = ui->twPlates->currentRow();
+    if(row < 0)
+        return;
+
+    listAddingPlate.removeAt(row);
+    ui->twPlates->removeRow(row);
+
+    // auto plate_iter = std::find_if(listAddingPlate.begin(), listAddingPlate.end(), [id](Plate &p) { return p.id == id;});
+    // std::remove_if(listAddingPlate.begin(), listAddingPlate.end(), [id](Plate &p) { return p.id == id;});
 
 }
 

@@ -15,10 +15,14 @@ class SelectDeviceWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit SelectDeviceWindow(QWidget *parent = nullptr);
+    enum TypeDevice {TypeAll, TypeProduct, TypeModul};
+
+
+    explicit SelectDeviceWindow(QWidget *parent = nullptr, QString searchNum = "",
+                                Status::Stat status = Status::NONE, TypeDevice typeDevice = TypeAll);
     ~SelectDeviceWindow();
-    Product *prod = nullptr;
-    Modul *modul = nullptr;
+    Product prod;// = nullptr;
+    Modul modul;// = nullptr;
 
 private slots:
     void on_tbSearch_clicked();
@@ -33,8 +37,17 @@ private:
     QList<Modul> listModul;
     QList<Product> listProduct;
     RepoMSSQL repo;
+    Status::Stat status;
+    TypeDevice typeDevice;
+
+    int SearchModul(QString number, int status);
+    int SearchProduct(QString number, int status);
 
 
+    // QObject interface
+protected:
+    void timerEvent(QTimerEvent *event) override;
 };
+
 
 #endif // SELECTDEVICEWINDOW_H

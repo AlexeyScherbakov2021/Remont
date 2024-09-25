@@ -20,7 +20,13 @@ ClaimDetail::ClaimDetail(Claim *cl,QWidget *parent)
     // for(auto it = listTypeProduct.cbegin(); it != listTypeProduct.cend(); ++it)
     //     ui->cbTypeDevice->addItem(*it, it.key());
 
+    repo.LoadModulToClaim(claim->id, claim->listModul);
+    repo.LoadProductToClaim(claim->id, claim->listProduct);
+
     ClaimToScreen(claim);
+
+    ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->resizeRowsToContents();
 
 }
 
@@ -53,6 +59,17 @@ void ClaimDetail::on_pbOK_clicked()
     claim->TypeClaimId = ui->cbTypeClaim->currentData(Qt::UserRole).toInt();
     // claim->TypeComplectId = ui->cbTypeComplect->currentData(Qt::UserRole).toInt();
     // claim->TypeDeviceId = ui->cbTypeDevice->currentData(Qt::UserRole).toInt();
+
+    for(auto &it : listAddModul)
+    {
+        repo.AddModulToClaim(it.id, claim->id);
+    }
+
+    for(auto &it : listAddProduct)
+    {
+        repo.AddProductToClaim(it.id, claim->id);
+    }
+
     accept();
 }
 
@@ -80,6 +97,51 @@ void ClaimDetail::ClaimToScreen(Claim *claim)
     ui->cbTypeClaim->setCurrentText(listTypeClaim[claim->TypeClaimId]);
     // ui->cbTypeComplect->setCurrentText(listTypeModule[claim->TypeComplectId]);
     // ui->cbTypeDevice->setCurrentText(listTypeProduct[claim->TypeDeviceId]);
+
+    for(auto &it : claim->listModul)
+        AddModulToTableScreen(it);
+
+    for(auto &it : claim->listProduct)
+        AddProductToTableScreen(it);
+}
+
+
+void ClaimDetail::AddModulToTableScreen(const Modul &modul)
+{
+    int row = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText("Модуль");
+    ui->tableWidget->setItem(row, 0, item);
+    item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText(modul.number);
+    ui->tableWidget->setItem(row, 1, item);
+    item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText(modul.name);
+    ui->tableWidget->setItem(row, 2, item);
+
+}
+
+void ClaimDetail::AddProductToTableScreen(const Product &prod)
+{
+    int row = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText("Изделие");
+    ui->tableWidget->setItem(row, 0, item);
+    item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText(prod.number);
+    ui->tableWidget->setItem(row, 1, item);
+    item = new QTableWidgetItem();
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    item->setText(prod.name);
+    ui->tableWidget->setItem(row, 2, item);
+
 }
 
 
@@ -88,42 +150,46 @@ void ClaimDetail::ClaimToScreen(Claim *claim)
 //-----------------------------------------------------------------------------------------
 void ClaimDetail::on_tbAddDevice_clicked()
 {
-    SelectDeviceWindow *win = new SelectDeviceWindow(this);
+    SelectDeviceWindow *win = new SelectDeviceWindow(this, "", Status::Stat::WORK);
     if(win->exec() == QDialog::Accepted)
     {
-        int row = ui->tableWidget->rowCount();
+        // int row = ui->tableWidget->rowCount();
 
-        if(win->prod != nullptr)
+        if(win->prod.id != 0)
         {
-            ui->tableWidget->insertRow(row);
-            QTableWidgetItem *item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText("Изделие");
-            ui->tableWidget->setItem(row, 0, item);
-            item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText(win->prod->number);
-            ui->tableWidget->setItem(row, 1, item);
-            item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText(win->prod->name);
-            ui->tableWidget->setItem(row, 2, item);
+            AddProductToTableScreen(win->prod);
+            // ui->tableWidget->insertRow(row);
+            // QTableWidgetItem *item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText("Изделие");
+            // ui->tableWidget->setItem(row, 0, item);
+            // item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText(win->prod.number);
+            // ui->tableWidget->setItem(row, 1, item);
+            // item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText(win->prod.name);
+            // ui->tableWidget->setItem(row, 2, item);
+            listAddProduct.insert(win->prod.id, win->prod);
         }
-        else if(win->modul != nullptr)
+        else if(win->modul.id != 0)
         {
-            ui->tableWidget->insertRow(row);
-            QTableWidgetItem *item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText("Модуль");
-            ui->tableWidget->setItem(row, 0, item);
-            item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText(win->modul->number);
-            ui->tableWidget->setItem(row, 1, item);
-            item = new QTableWidgetItem();
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            item->setText(win->modul->name);
-            ui->tableWidget->setItem(row, 2, item);
+            AddModulToTableScreen(win->modul);
+            // ui->tableWidget->insertRow(row);
+            // QTableWidgetItem *item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText("Модуль");
+            // ui->tableWidget->setItem(row, 0, item);
+            // item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText(win->modul.number);
+            // ui->tableWidget->setItem(row, 1, item);
+            // item = new QTableWidgetItem();
+            // item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+            // item->setText(win->modul.name);
+            // ui->tableWidget->setItem(row, 2, item);
+            listAddModul.insert(win->modul.id, win->modul);
         }
         ui->tableWidget->resizeColumnsToContents();
         ui->tableWidget->resizeRowsToContents();

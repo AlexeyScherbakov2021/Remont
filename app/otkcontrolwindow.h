@@ -32,6 +32,8 @@ private slots:
     void on_tbDelBrokenProd_clicked();
     void on_OTKControlWindow_accepted();
 
+    void on_rbOldDevice_toggled(bool checked);
+
 private:
     Ui::OTKControlWindow *ui;
     RepoMSSQL repo;
@@ -39,6 +41,9 @@ private:
     QList<Product> listProduct;
     QMap<int, Status> listStatus;
     QMap<int, Status> listStatusProd;
+
+    void loadCreatedDevice();
+    void loadBrockenDevice();
 };
 
 #endif // OTKCONTROLWINDOW_H

@@ -22,12 +22,22 @@ public:
 
     QList<RemontM> listRemont;
     QList<Status> listStatus;
+    QList<Plate> listPlate;
 
-    Modul() : id{0} {}
+    Modul() : id{0}, idShipment{0}, idProduct{0} {}
 
     bool operator==(const Modul &other) const { return this->id == other.id; }
 
-
+    QString numAndComment()
+    {
+        QString res = number;
+        Status status = listStatus.last();
+        if(listStatus.size() > 0 && !status.Comment.isEmpty())
+        {
+            res = number + " (" + status.Comment + ")";
+        }
+        return res;
+    }
 
 };
 

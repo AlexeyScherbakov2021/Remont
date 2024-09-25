@@ -163,6 +163,8 @@ public:
         tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         tableWidget->setObjectName("tableWidget");
         tableWidget->setGeometry(QRect(80, 260, 621, 201));
+        tableWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+        tableWidget->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
         tbAddDevice = new QToolButton(ClaimDetail);
         tbAddDevice->setObjectName("tbAddDevice");
         tbAddDevice->setGeometry(QRect(40, 270, 23, 23));

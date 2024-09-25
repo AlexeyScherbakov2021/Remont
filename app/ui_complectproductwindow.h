@@ -17,6 +17,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QToolButton>
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +30,8 @@ public:
     QLineEdit *leNumModSearch;
     QToolButton *tbSearchModul;
     QListWidget *lwOuterModule;
+    QRadioButton *rbNewModule;
+    QRadioButton *rbOldModule;
     QPushButton *pbAddModul;
     QPushButton *pbDeleteModul;
     QGroupBox *groupBox_2;
@@ -37,7 +40,7 @@ public:
     QLabel *label_4;
     QLabel *lbNameProd;
     QLineEdit *leNumProdSearch;
-    QToolButton *tbModulSearch;
+    QToolButton *tbProdSearch;
     QLabel *label_3;
     QLabel *label_14;
     QLabel *lbNumProd;
@@ -54,22 +57,29 @@ public:
         groupBox->setGeometry(QRect(500, 10, 341, 501));
         label_9 = new QLabel(groupBox);
         label_9->setObjectName("label_9");
-        label_9->setGeometry(QRect(10, 30, 211, 16));
+        label_9->setGeometry(QRect(8, 60, 211, 16));
         leNumModSearch = new QLineEdit(groupBox);
         leNumModSearch->setObjectName("leNumModSearch");
-        leNumModSearch->setGeometry(QRect(10, 50, 211, 24));
+        leNumModSearch->setGeometry(QRect(8, 80, 211, 24));
         tbSearchModul = new QToolButton(groupBox);
         tbSearchModul->setObjectName("tbSearchModul");
-        tbSearchModul->setGeometry(QRect(220, 50, 23, 23));
+        tbSearchModul->setGeometry(QRect(220, 80, 23, 23));
         lwOuterModule = new QListWidget(groupBox);
         lwOuterModule->setObjectName("lwOuterModule");
-        lwOuterModule->setGeometry(QRect(10, 90, 321, 401));
+        lwOuterModule->setGeometry(QRect(10, 120, 321, 371));
+        rbNewModule = new QRadioButton(groupBox);
+        rbNewModule->setObjectName("rbNewModule");
+        rbNewModule->setGeometry(QRect(20, 30, 91, 22));
+        rbNewModule->setChecked(true);
+        rbOldModule = new QRadioButton(groupBox);
+        rbOldModule->setObjectName("rbOldModule");
+        rbOldModule->setGeometry(QRect(100, 30, 141, 22));
         pbAddModul = new QPushButton(ComplectProductWindow);
         pbAddModul->setObjectName("pbAddModul");
-        pbAddModul->setGeometry(QRect(410, 240, 80, 24));
+        pbAddModul->setGeometry(QRect(400, 240, 80, 24));
         pbDeleteModul = new QPushButton(ComplectProductWindow);
         pbDeleteModul->setObjectName("pbDeleteModul");
-        pbDeleteModul->setGeometry(QRect(410, 270, 80, 24));
+        pbDeleteModul->setGeometry(QRect(400, 270, 80, 24));
         groupBox_2 = new QGroupBox(ComplectProductWindow);
         groupBox_2->setObjectName("groupBox_2");
         groupBox_2->setGeometry(QRect(10, 10, 371, 501));
@@ -94,9 +104,9 @@ public:
         leNumProdSearch = new QLineEdit(groupBox_2);
         leNumProdSearch->setObjectName("leNumProdSearch");
         leNumProdSearch->setGeometry(QRect(10, 51, 201, 24));
-        tbModulSearch = new QToolButton(groupBox_2);
-        tbModulSearch->setObjectName("tbModulSearch");
-        tbModulSearch->setGeometry(QRect(210, 50, 23, 23));
+        tbProdSearch = new QToolButton(groupBox_2);
+        tbProdSearch->setObjectName("tbProdSearch");
+        tbProdSearch->setGeometry(QRect(210, 50, 23, 23));
         label_3 = new QLabel(groupBox_2);
         label_3->setObjectName("label_3");
         label_3->setGeometry(QRect(10, 31, 131, 16));
@@ -113,6 +123,17 @@ public:
         pbCancel = new QPushButton(ComplectProductWindow);
         pbCancel->setObjectName("pbCancel");
         pbCancel->setGeometry(QRect(430, 520, 80, 24));
+        QWidget::setTabOrder(leNumProdSearch, leNumModSearch);
+        QWidget::setTabOrder(leNumModSearch, rbNewModule);
+        QWidget::setTabOrder(rbNewModule, rbOldModule);
+        QWidget::setTabOrder(rbOldModule, pbAddModul);
+        QWidget::setTabOrder(pbAddModul, pbDeleteModul);
+        QWidget::setTabOrder(pbDeleteModul, pbOK);
+        QWidget::setTabOrder(pbOK, pbCancel);
+        QWidget::setTabOrder(pbCancel, lwOuterModule);
+        QWidget::setTabOrder(lwOuterModule, lwInnerModule);
+        QWidget::setTabOrder(lwInnerModule, tbSearchModul);
+        QWidget::setTabOrder(tbSearchModul, tbProdSearch);
 
         retranslateUi(ComplectProductWindow);
         QObject::connect(pbCancel, &QPushButton::clicked, ComplectProductWindow, qOverload<>(&QDialog::reject));
@@ -126,13 +147,15 @@ public:
         groupBox->setTitle(QCoreApplication::translate("ComplectProductWindow", "\320\241\320\262\320\276\320\261\320\276\320\264\320\275\321\213\320\265 \320\274\320\276\320\264\321\203\320\273\320\270", nullptr));
         label_9->setText(QCoreApplication::translate("ComplectProductWindow", "\320\277\320\276\320\270\321\201\320\272 \320\277\320\276 \321\201\320\265\321\200\320\270\320\271\320\275\320\276\320\274\321\203 \342\204\226", nullptr));
         tbSearchModul->setText(QCoreApplication::translate("ComplectProductWindow", "...", nullptr));
+        rbNewModule->setText(QCoreApplication::translate("ComplectProductWindow", "\320\235\320\276\320\262\321\213\320\265", nullptr));
+        rbOldModule->setText(QCoreApplication::translate("ComplectProductWindow", "\320\236\321\202\321\200\320\265\320\274\320\276\320\275\321\202\320\270\321\200\320\276\320\262\320\275\320\275\321\213\320\265", nullptr));
         pbAddModul->setText(QCoreApplication::translate("ComplectProductWindow", "<<", nullptr));
         pbDeleteModul->setText(QCoreApplication::translate("ComplectProductWindow", ">>", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("ComplectProductWindow", "\320\230\320\267\320\264\320\265\320\273\320\270\320\265", nullptr));
         label->setText(QCoreApplication::translate("ComplectProductWindow", "\320\234\320\276\320\264\321\203\320\273\320\270 \320\262 \321\201\320\276\321\201\321\202\320\260\320\262\320\265", nullptr));
         label_4->setText(QCoreApplication::translate("ComplectProductWindow", "\320\235\320\260\320\270\320\274\320\265\320\275\320\276\320\262\320\260\320\275\320\270\320\265", nullptr));
         lbNameProd->setText(QString());
-        tbModulSearch->setText(QCoreApplication::translate("ComplectProductWindow", "...", nullptr));
+        tbProdSearch->setText(QCoreApplication::translate("ComplectProductWindow", "...", nullptr));
         label_3->setText(QCoreApplication::translate("ComplectProductWindow", "\320\237\320\276\320\270\321\201\320\272 \320\277\320\276 \321\201\320\265\321\200\320\270\320\271\320\275\320\276\320\274\321\203 \342\204\226", nullptr));
         label_14->setText(QCoreApplication::translate("ComplectProductWindow", "\320\241\320\265\321\200\320\270\320\271\320\275\321\213\320\271 \342\204\226", nullptr));
         lbNumProd->setText(QString());

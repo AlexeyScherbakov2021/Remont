@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>358</height>
+    <width>604</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Учет изделий</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pbClaim">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>240</y>
+      <x>220</x>
+      <y>20</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="pbCard">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>190</y>
+      <x>410</x>
+      <y>20</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -43,8 +43,21 @@
    <widget class="QPushButton" name="pbApplyRemont">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>30</y>
+      <x>220</x>
+      <y>70</y>
+      <width>170</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Принять в ОСО</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbStartRemont">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>120</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -53,24 +66,11 @@
      <string>Принять в ремонт</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pbStartRemont">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>80</y>
-      <width>170</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Вывести в ремонт</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pbEndRemont">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>130</y>
+      <x>220</x>
+      <y>170</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>70</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
+      <y>173</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>30</y>
+      <y>20</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -122,20 +122,20 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>240</y>
+      <y>230</y>
       <width>170</width>
       <height>40</height>
      </rect>
     </property>
     <property name="text">
-     <string>Отгрузка</string>
+     <string>Отгрузки</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pbComplect">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>190</y>
+      <y>120</y>
       <width>170</width>
       <height>40</height>
      </rect>
@@ -144,13 +144,26 @@
      <string>Установка в оборудование</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pbStartWork">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>170</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Запущен в работу</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>507</width>
+     <width>604</width>
      <height>21</height>
     </rect>
    </property>

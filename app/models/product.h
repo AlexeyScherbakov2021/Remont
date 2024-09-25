@@ -35,7 +35,18 @@ public:
     QList<RemontM> listRemont;
     QList<Status> listStatus;
 
-    Product() : id{0},isAvr{false},isAkb{false},isCooler{false},isSkm{false},isZip{false} { }
+    Product() : id{0}, idShipment{0}, idSetterOut{0},isAvr{false},isAkb{false},isCooler{false},isSkm{false},isZip{false} { }
+
+    QString numAndComment()
+    {
+        QString res = number;
+        Status status = listStatus.last();
+        if(listStatus.size() > 0 && !status.Comment.isEmpty())
+        {
+            res = number + " (" + status.Comment + ")";
+        }
+        return res;
+    }
 
 };
 

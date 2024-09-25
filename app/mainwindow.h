@@ -35,6 +35,10 @@ private slots:
 
     void on_pbComplect_clicked();
 
+    void on_pbStartRemont_clicked();
+
+    void on_pbStartWork_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

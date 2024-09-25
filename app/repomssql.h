@@ -6,7 +6,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 
-#include <models/claim.h>
+// #include <models/claim.h>
 #include <models/plates.h>
 #include <models/remontstepstatus.h>
 #include <models/status.h>
@@ -35,6 +35,7 @@ class RemontM;
 class Shipment;
 class RemontStep;
 class Entity;
+class Claim;
 // class BaseModel;
 
 class RepoMSSQL
@@ -50,19 +51,31 @@ public:
 
     void FindModul(const QString &serialNumber, QList<Modul> &listModul);
     Modul GetModul(const int id);
-    void FindModulsStatus(QList<Modul> &listModul, QString serialNumber, int typeStatus);
+    void FindModulsStatus(QString serialNumber, QList<Modul> &listModul, int typeStatus);
     void LoadModulsStatus(QList<Modul> &listModul, int typeStatus);
     void LoadModuleType(QMap<int, QString> &listTypeModule);
     bool AddModul(Modul &modul);
     bool DeleteModul(int id);
+    bool UpdateModul(Modul &modul);
     bool AddStatusModul(Status &status);
+    void LoadStatus(Modul &mod);
+    bool DeleteStatusModul(Status &status);
 
+    bool AddSetterOut(SetterOut *setter);
     SetterOut GetSetterOut(int id);
     void LoadChildSetter(SetterOut &setter);
+    bool DeleteSetter(int id);
 
+    bool AddShipment(Shipment *ship);
+    bool UpdateShipment(Shipment *ship);
     Shipment GetShipment(int id);
+    void LoadShipment(QList<Shipment> &listShip, bool isFinish = false);
+    void LoadShipSetter(QList<SetterOut> &listSetter, int idShip);
+    void LoadShipProduct(QList<Product> &listProduct, int idShip);
+    void LoadShipModule(QList<Modul> &listModul, int idShip);
 
     void FindProduct(const QString &serialNumber, QList<Product> &listProduct);
+    void FindProductStatus(const QString &serialNumber, QList<Product> &listProduct, int status);
     Product GetProduct(const int id);
     Product GetProduct(const QString number);
     void LoadProducts(QList<Product> &listProduct, int idStatus);
@@ -71,6 +84,8 @@ public:
     bool AddProduct(Product &prod);
     bool DeleteProduct(int id);
     bool AddStatusProduct(Status &status);
+    void LoadStatus(Product &prod);
+    bool UpdateProduct(Product *prod);
 
     bool AddRemontM(RemontM& rem);
     bool AddRemontMStep(RemontStep &remStep);
@@ -89,9 +104,10 @@ public:
     bool UpdateClaim(Claim *claim);
     bool DeleteClaim(int id);
     void LoadClaimType(QMap<int, QString> &listTypeClaim);
-
-    void LoadStatus(Modul &mod);
-    void LoadStatus(Product &prod);
+    bool AddModulToClaim(int idModul, int idClaim);
+    bool AddProductToClaim(int idProd, int idClaim);
+    void LoadModulToClaim(int idClaim, QList<Modul> &listModul);
+    void LoadProductToClaim(int idClaim, QList<Product> &listProduct);
 
     bool InsertPlate(Plate &plate);
     bool DeletePlate(int id);

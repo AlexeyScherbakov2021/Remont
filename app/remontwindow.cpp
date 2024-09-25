@@ -38,7 +38,7 @@ void RemontWindow::on_pbOK_clicked()
 {
     RemontM remont;
 
-    remont.reclamtion = ui->leReclamation->text();
+    // remont.reclamtionId = ui->leReclamation->id;
     remont.EntityId = remontEntity->id;
     remont.workDate = ui->deDateRemont->dateTime();
     remont.reasonId = ui->cbReason->currentData().toInt();

@@ -8,6 +8,9 @@
 #include "platewindow.h"
 #include "complectproductwindow.h"
 #include "shipwindow.h"
+#include "acceptremontwindow.h"
+#include "listshipwindow.h"
+#include "remontwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,10 +47,10 @@ void MainWindow::on_pbCard_clicked()
     if(win->exec() == QDialog::Accepted)
     {
         CardProdWindow *winCard;
-        if(win->prod != nullptr)
-            winCard = new CardProdWindow(*win->prod, this);
-        else if(win->modul != nullptr)
-            winCard = new CardProdWindow(*win->modul, this);
+        if(win->prod.id != 0 )
+            winCard = new CardProdWindow(win->prod, this);
+        else if(win->modul.id != 0)
+            winCard = new CardProdWindow(win->modul, this);
         else
             return;
 
@@ -61,7 +64,8 @@ void MainWindow::on_pbCard_clicked()
 //----------------------------------------------------------------------------------------------
 void MainWindow::on_pbApplyRemont_clicked()
 {
-
+    AcceptRemontWindow *win = new AcceptRemontWindow(this);
+    win->show();
 }
 
 
@@ -103,14 +107,36 @@ void MainWindow::on_pbCreatePlate_clicked()
 //----------------------------------------------------------------------------------------------
 void MainWindow::on_pbShip_clicked()
 {
-    ShipWindow *win = new ShipWindow(this);
+    ListShipWindow *win = new ListShipWindow(this);
     win->exec();
 }
 
 
+//----------------------------------------------------------------------------------------------
+// Кнопка Установка в оборудование
+//----------------------------------------------------------------------------------------------
 void MainWindow::on_pbComplect_clicked()
 {
     ComplectProductWindow *win = new ComplectProductWindow(this);
     win->exec();
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Принять в ремонт
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbStartRemont_clicked()
+{
+    RemontWindow *win = new RemontWindow(nullptr, this);
+    win->show();
+}
+
+
+//----------------------------------------------------------------------------------------------
+// Кнопка Запущен в работу
+//----------------------------------------------------------------------------------------------
+void MainWindow::on_pbStartWork_clicked()
+{
+
 }
 

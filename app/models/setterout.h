@@ -15,8 +15,7 @@ public:
 
     QList<Product> listProduct;
 
-    SetterOut() : id{0} {}
-
+    SetterOut() : id{0}, idShipment{0} {}
 };
 
 #endif // SETTEROUT_H

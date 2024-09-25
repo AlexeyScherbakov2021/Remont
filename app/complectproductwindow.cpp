@@ -1,4 +1,5 @@
 #include "complectproductwindow.h"
+#include "selectdevicewindow.h"
 #include "ui_complectproductwindow.h"
 
 #include <models/modul.h>
@@ -22,11 +23,15 @@ ComplectProductWindow::~ComplectProductWindow()
 //----------------------------------------------------------------------------------------------
 void ComplectProductWindow::on_tbSearchModul_clicked()
 {
-    // поиск модулей со статусом Исправен на производстве
+    // поиск модулей со статусом Исправен на производстве для изделия со статусом Создан
 
     ui->lwOuterModule->clear();
     listModul.clear();
-    repo.FindModulsStatus(listModul, ui->leNumModSearch->text(), 3);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    int status = ui->rbNewModule->isChecked() ? Status::CREATE : Status::FAULTY;
+
+    repo.FindModulsStatus(ui->leNumModSearch->text(), listModul, status);
 
     for(const auto &it : listModul)
     {
@@ -38,15 +43,23 @@ void ComplectProductWindow::on_tbSearchModul_clicked()
         ui->lwOuterModule->addItem(item);
     }
 
+    QApplication::restoreOverrideCursor();
 }
 
 
 //----------------------------------------------------------------------------------------------
 // Кнопка поиска изделия
 //----------------------------------------------------------------------------------------------
-void ComplectProductWindow::on_tbModulSearch_clicked()
+void ComplectProductWindow::on_tbProdSearch_clicked()
 {
-    prod = repo.GetProduct(ui->leNumProdSearch->text());
+    SelectDeviceWindow *win = new SelectDeviceWindow(this, ui->leNumProdSearch->text(), Status::CREATE, SelectDeviceWindow::TypeProduct);
+    if(win->exec() != QDialog::Accepted)
+    {
+        return;
+    }
+
+    // prod = repo.GetProduct(ui->leNumProdSearch->text());
+    prod = win->prod;
     if(prod.id == 0)
         return;
 
@@ -58,6 +71,7 @@ void ComplectProductWindow::on_tbModulSearch_clicked()
     ui->lwInnerModule->clear();
     for(auto &it : prod.listModules)
     {
+        repo.LoadStatus(it);
         QListWidgetItem *item = new QListWidgetItem;
         item->setText(it.number + " (" + it.name + ")");
         QVariant var;
@@ -99,6 +113,9 @@ void ComplectProductWindow::on_pbAddModul_clicked()
 }
 
 
+//----------------------------------------------------------------------------------------------
+// Удаление модуля из изделие
+//----------------------------------------------------------------------------------------------
 void ComplectProductWindow::on_pbDeleteModul_clicked()
 {
     QVariant var = ui->lwInnerModule->item(ui->lwInnerModule->currentRow())->data(Qt::UserRole);
@@ -117,6 +134,9 @@ void ComplectProductWindow::on_pbDeleteModul_clicked()
 }
 
 
+//----------------------------------------------------------------------------------------------
+// Кнопка подтверждения изменений
+//----------------------------------------------------------------------------------------------
 void ComplectProductWindow::on_pbOK_clicked()
 {
     QSet<Modul> res = addModul;
@@ -126,9 +146,31 @@ void ComplectProductWindow::on_pbOK_clicked()
 
     // Добавление модулей в изделие и изменение статуса на  Установлен в оборудование
 
-    // Удаление модулей из изделия и изменение статуса на исправен на производстве
+    for(auto &it : addModul)
+    {
+        Modul mod = it;
+        Status status;
+        status.dateStatus = QDateTime::currentDateTime();
+        status.idStatus = Status::INSTALL;
+        status.idDevice = mod.id;
+        mod.listStatus.push_back(status);
+        mod.idProduct = prod.id;
+        // записать в базу новый статус и id изделия для модуля
+        if(repo.UpdateModul(mod))
+            repo.AddStatusModul(status);
 
-    // изменение статуса изделия на Произведен
+    }
+
+    // Удаление модулей из изделия и изменение статуса на исправен на производстве
+    for(auto &it : delModul)
+    {
+        Modul mod = it;
+        mod.idProduct = 0;
+        repo.UpdateModul(mod);
+        // repo.DeleteStatusModul();
+
+        mod.listStatus.removeIf( [] (auto n) { return n.idStatus == Status::INSTALL; });
+    }
 
     accept();
 }

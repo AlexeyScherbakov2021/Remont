@@ -57,7 +57,7 @@ void SelectPlateWindow::on_SelectPlateWindow_accepted()
 }
 
 
-void SelectPlateWindow::on_tableWidget_cellDoubleClicked(int row, int column)
+void SelectPlateWindow::on_tableWidget_cellDoubleClicked(int /*row*/, int /*column*/)
 {
     accept();
 }

@@ -21,13 +21,9 @@ public:
 
 private slots:
     void on_tbSearchModul_clicked();
-
-    void on_tbModulSearch_clicked();
-
+    void on_tbProdSearch_clicked();
     void on_pbAddModul_clicked();
-
     void on_pbDeleteModul_clicked();
-
     void on_pbOK_clicked();
 
 private:

@@ -81,7 +81,7 @@ CardProdWindow::~CardProdWindow()
 void CardProdWindow::AddRowRemont(RemontM &rem)
 {
     QTreeWidgetItem *top = new QTreeWidgetItem();
-    top->setText(0, rem.reclamtion);
+    // top->setText(0, rem.reclamtion);
     top->setText(1, rem.workDate.toString("dd.MM.yyyy"));
     top->setText(2, rem.EndDate.toString("dd.MM.yyyy"));
     top->setText(3, rem.reasonName);

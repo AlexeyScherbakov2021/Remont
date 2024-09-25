@@ -12,7 +12,7 @@ class RemontM
 public:
     int id;
     int EntityId;
-    QString reclamtion;
+    int reclamtionId;
     QDateTime workDate;
     int reasonId;
     QString reasonName;

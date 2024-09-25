@@ -34,9 +34,14 @@ private:
     QMap<int, QString> listTypeModule;
     QMap<int, QString> listTypeProduct;
 
+    QMap<int, Product> listAddProduct;
+    QMap<int, Modul> listAddModul;
+
     RepoMSSQL repo;
 
     void ClaimToScreen(Claim *claim);
+    void AddModulToTableScreen(const Modul &modul);
+    void AddProductToTableScreen(const Product &prod);
 };
 
 #endif // CLAIMDETAIL_H

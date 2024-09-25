@@ -1,16 +1,26 @@
 #include "selectdevicewindow.h"
 #include "ui_selectdevicewindow.h"
 
-SelectDeviceWindow::SelectDeviceWindow(QWidget *parent)
+SelectDeviceWindow::SelectDeviceWindow(QWidget *parent, QString searchNum, Status::Stat status, TypeDevice typeDevice)
     : QDialog(parent)
-    , ui(new Ui::SelectDeviceWindow)
+    , ui(new Ui::SelectDeviceWindow), status(status), typeDevice(typeDevice)
 {
     ui->setupUi(this);
 
-    // Device<Modul> dev;
-    // Device<Product> devProd;
-    // RepoMSSQL rep;
-    // rep.FindProduct("", devProd.listDevice);
+
+    if(typeDevice == TypeProduct)
+        ui->tabWidget->setTabVisible(1, false);
+
+    if(typeDevice == TypeModul)
+        ui->tabWidget->setTabVisible(0, false);
+
+    if(!searchNum.isEmpty())
+    {
+        ui->leSearch->setText(searchNum);
+        ui->leSearch->setEnabled(false);
+        on_tbSearch_clicked();
+    }
+
 }
 
 SelectDeviceWindow::~SelectDeviceWindow()
@@ -26,11 +36,69 @@ void SelectDeviceWindow::on_tbSearch_clicked()
     if(ui->leSearch->text().isEmpty())
         return;
 
-    ui->twModul->setRowCount(0);
-    ui->twProduct->setRowCount(0);
+    int resMod = 0;
+    int resProd = 0;
 
-    // QList<Modul> listModul;
-    repo.FindModul(ui->leSearch->text(), listModul);
+    if(typeDevice == TypeDevice::TypeModul || typeDevice == TypeDevice::TypeAll)
+        resMod = SearchModul(ui->leSearch->text(), status);
+
+
+    if(typeDevice == TypeDevice::TypeProduct || typeDevice == TypeDevice::TypeAll)
+        resProd = SearchProduct(ui->leSearch->text(), status);
+
+    if(resProd + resMod == 1)
+    {
+        setGeometry(5000,5000,0,0);
+        startTimer(10);
+        // QApplication::postEvent(this, )
+        if(listModul.size() > 0)
+            modul = listModul.at(0);
+        if(listProduct.size() > 0)
+            prod = listProduct.at(0);
+
+    }
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Кнопка Выбрать
+//--------------------------------------------------------------------------------------------------
+void SelectDeviceWindow::on_pbSelect_clicked()
+{
+
+    if(ui->tabWidget->currentIndex() == 0 && ui->twProduct->currentRow() >= 0)
+        prod = listProduct[ui->twProduct->currentRow()];
+
+    if(ui->tabWidget->currentIndex() == 1 && ui->twModul->currentRow() >= 0)
+        modul = listModul[ui->twModul->currentRow()];
+
+    accept();
+}
+
+
+void SelectDeviceWindow::on_twModul_cellDoubleClicked(int /*row*/, int /*column*/)
+{
+    on_pbSelect_clicked();
+}
+
+
+void SelectDeviceWindow::on_twProduct_cellDoubleClicked(int /*row*/, int /*column*/)
+{
+    on_pbSelect_clicked();
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Поиск модуля по номеру
+//--------------------------------------------------------------------------------------------------
+int SelectDeviceWindow::SearchModul(QString number, int status)
+{
+
+    ui->twModul->setRowCount(0);
+    if(status == 0)
+        repo.FindModul(number, listModul);
+    else
+        repo.FindModulsStatus(number, listModul, status);
 
     int row = 0;
     for(auto const &it : listModul)
@@ -60,9 +128,25 @@ void SelectDeviceWindow::on_tbSearch_clicked()
     ui->twModul->resizeColumnsToContents();
     ui->twModul->resizeRowsToContents();
 
-    repo.FindProduct(ui->leSearch->text(), listProduct);
+    if(listModul.size() == 0)
+        ui->tabWidget->setCurrentIndex(0);
 
-    row = 0;
+    return row;
+}
+
+//--------------------------------------------------------------------------------------------------
+// Поиск изделия по номеру
+//--------------------------------------------------------------------------------------------------
+int SelectDeviceWindow::SearchProduct(QString number, int status)
+{
+    ui->twProduct->setRowCount(0);
+
+    if(status == 0)
+        repo.FindProduct(number, listProduct);
+    else
+        repo.FindProductStatus(number, listProduct, status);
+
+    int row = 0;
     for(auto const &it : listProduct)
     {
         ui->twProduct->insertRow(row);
@@ -95,38 +179,12 @@ void SelectDeviceWindow::on_tbSearch_clicked()
     if(listProduct.size() == 0)
         ui->tabWidget->setCurrentIndex(1);
 
-    if(listModul.size() == 0)
-        ui->tabWidget->setCurrentIndex(0);
-
+    return row;
 }
 
-
-//--------------------------------------------------------------------------------------------------
-// Кнопка Выбрать
-//--------------------------------------------------------------------------------------------------
-void SelectDeviceWindow::on_pbSelect_clicked()
+void SelectDeviceWindow::timerEvent(QTimerEvent *event)
 {
-    qDebug() << ui->twProduct->currentRow() << ui->twModul->currentRow();
-
-
-    if(ui->tabWidget->currentIndex() == 0 && ui->twProduct->currentRow() >= 0)
-        prod = &listProduct[ui->twProduct->currentRow()];
-
-    if(ui->tabWidget->currentIndex() == 1 && ui->twModul->currentRow() >= 0)
-        modul = &listModul[ui->twModul->currentRow()];
-
+    killTimer(event->timerId());
     accept();
-}
-
-
-void SelectDeviceWindow::on_twModul_cellDoubleClicked(int /*row*/, int /*column*/)
-{
-    on_pbSelect_clicked();
-}
-
-
-void SelectDeviceWindow::on_twProduct_cellDoubleClicked(int /*row*/, int /*column*/)
-{
-    on_pbSelect_clicked();
 }
 
